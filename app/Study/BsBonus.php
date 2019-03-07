@@ -29,4 +29,22 @@ class BsBonus extends Model
     {
     	return self::where('id',$id)->update($data);
     }
+
+    //添加红包的函数
+    public static function addBonus($data)
+    {
+        $res = self::insert($data);
+
+        return $res;
+    }
+
+    //获取红包列表
+    public static function getBonusList()
+    {
+        $list = self::orderBy('id','desc')
+                    ->get()
+                    ->toArray();
+
+        return $list;
+    }
 }

@@ -13,12 +13,80 @@ use Log;
 class BonusController extends Controller
 {
     //
-
-
+    //首页
     public function index()
     {
+        return view('study.index');
+    }
+
+    //添加红包
+    public function addBonus(Request $request)
+    {
+        $params = $request->all();//获取所有的参数
+
+        $return = [
+            'code' => 2000,
+            'msg'  => "成功"
+        ];
+
+        try{
+
+            $data = [
+            'total_amount' => $params['total_amount'],
+            'left_amount' => $params['total_amount'],
+            'total_nums'  => $params['total_nums'],
+            'left_nums'  => $params['total_nums'],
+            ];
+
+            BsBonus::addBonus($data);
+
+        }catch(\Exception $e){
+
+            $return = [
+                'code' => $e->getCode(),
+                'msg'  => $e->getMessage()
+            ];
+
+            return json_encode($return);
+
+        }
+        
+        return json_encode($return);
+    }
+    
+    //获取红包列表
+    public function getList()
+    {
+        $list = BsBonus::getBonusList();
+
+        $return = [
+            'code' => 2000,
+            'msg'  => "成功",
+            'data' => $list
+        ];
+
+        return json_encode($return);
+    }
+
+    //红包记录列表
+    public function getBonusRecord(Request $request)
+    {
+        $bonusId = $request->input('bonus_id',1);
+
+
+        $list = BsBonusRecord::getBonusRecord($bonusId);
+
+        $return = [
+            'code' => 2000,
+            'msg'  => "成功",
+            'data' => $list
+        ];
+
+        return json_encode($return);
 
     }
+
+
 
     /**
      * @抢红包的业务逻辑
@@ -31,6 +99,8 @@ class BonusController extends Controller
     {
     	//获取所有的参数
     	$params = $request->all();
+
+        $params['user_id'] = rand(1,100);
 
     	$return = [
     		'code' => 2000,

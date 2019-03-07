@@ -55,4 +55,14 @@ class BsBonusRecord extends Model
     			->where('bonus_id',$bonusId)
     			->first();
     }
+
+    /**
+     * 获取红包记录列表
+     */
+    public static function getBonusRecord($bonusId)
+    {
+        return self::where('bonus_id',$bonusId)
+                ->get()
+                ->toArray();
+    }
 }
