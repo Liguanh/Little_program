@@ -32,7 +32,16 @@ Route::prefix('study')->group(function(){
     Route::any('get/bonus', 'Study\BonusController@getBonus'); //获取红包的路由
 });
 
+
+
+//登陆页面
+Route::get('admin/login','Admin\LoginController@index');
+//执行登陆
+Route::post('admin/doLogin','Admin\LoginController@doLogin');
+
 //管理后台RBAC功能类的路由组
 Route::prefix('admin')->group(function(){
 
+    //管理后台首页
+    Route::get('home','Admin\HomeController@home');
 });
