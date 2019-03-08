@@ -38,6 +38,8 @@ Route::prefix('study')->group(function(){
 Route::get('admin/login','Admin\LoginController@index');
 //执行登陆
 Route::post('admin/doLogin','Admin\LoginController@doLogin');
+//用户退出
+Route::get('admin/logout','Admin\LoginController@logout');
 
 //管理后台RBAC功能类的路由组
 Route::prefix('admin')->group(function(){
