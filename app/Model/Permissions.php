@@ -32,4 +32,37 @@ class Permissions extends Model
         $leftMenu = ToolsAdmin::buildTree($permissions);
     	return $leftMenu;
     }
+
+    /**
+     * 获取权限列表
+     * @return array
+     */
+    public static function getListByFid($fid=0)
+    {
+    	$list = self::select('id', 'fid','name','url','is_menu','sort')
+    				->where('fid',$fid)
+    				->orderBy('sort')
+    				->get()
+    				->toArray();
+
+    	return $list;
+    }
+
+    /**
+     * 添加权限
+     * @return bool
+     */
+    public static function addRecord($data)
+    {
+
+    	return self::insert($data);
+    }
+
+    /**
+     * 删除权限的函数
+     */
+    public static function delRecord($id)
+    {
+    	return self::where('id',$id)->delete();
+    }
 }

@@ -47,6 +47,16 @@ Route::middleware('admin_auth')->prefix('admin')->group(function(){
     //管理后台首页
     Route::get('home','Admin\HomeController@home')->name('admin.home');
 
+   
     //权限列表
-    Route::get('/permission/list',function(){return 'list';})->name('admin.permission.list');
+    Route::get('/permission/list','Admin\PermissionController@list')->name('admin.permission.list');
+    //获取权限的数据
+    Route::any('/get/permission/list/{fid?}','Admin\PermissionController@getPermissionList')->name('admin.get.permission.list');
+    //权限添加
+    Route::get('/permission/create','Admin\PermissionController@create')->name('admin.permission.create');
+    //执行权限添加
+    Route::post('/permission/doCreate','Admin\PermissionController@doCreate')->name('admin.permission.doCreate');
+    //删除权限的操作
+    Route::get('/permission/del/{id}','Admin\PermissionController@del')->name('admin.permission.del');
+
 });

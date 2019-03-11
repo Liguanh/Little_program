@@ -71,7 +71,7 @@
 	      </div>
 
 	      <h5 class="sidebartitle">Navigation</h5>
-	      <ul class="nav nav-pills nav-stacked nav-bracket">
+	      <ul class="nav nav-pills nav-stacked nav-bracket" id="left_menus">
 
           @if(!empty($menus))
             @foreach($menus as $menu)
@@ -79,12 +79,12 @@
                 <li class="nav-parent"><a href="{{ \Route::has($menu['url']) ? route($menu['url']) : '#'}}"><i class="fa fa-edit"></i> <span>{{$menu['name']}}</span></a>
                   <ul class="children">
                       @foreach($menu['son'] as $m)
-                      <li><a href="{{ \Route::has($m['url']) ? route($m['url']) : '#'}}"><i class="fa fa-caret-right"></i> {{$m['name']}}</a></li>
+                      <li @if(\Route::currentRouteName() == $m['url']) class="son active" @endif><a href="{{ \Route::has($m['url']) ? route($m['url']) : '#'}}"><i class="fa fa-caret-right"></i> {{$m['name']}}</a></li>
                       @endforeach
                   </ul>
                 </li>
               @else 
-                <li class="active"><a href="{{ \Route::has($menu['url']) ? route($menu['url']) : '#'}}"><i class="fa fa-home"></i> <span>{{$menu['name']}}</span></a></li>
+                <li @if(\Route::currentRouteName() == $menu['url']) class="active" @endif><a href="{{ \Route::has($menu['url']) ? route($menu['url']) : '#'}}"><i class="fa fa-home"></i> <span>{{$menu['name']}}</span></a></li>
               @endif
 
             @endforeach
@@ -150,8 +150,16 @@
   </div><!-- mainpanel -->
 </section>
 
+<script type="text/javascript">
 
+  $("#left_menus li ul .son").each(function(){
+    if($(this).hasClass('active')){
+      $(this).parent('ul').css('display','block');
+      $(this).parent('ul').parent('li').addClass('nav-active');
+    }
 
+  });
+</script>
 
 </body>
 </html>
