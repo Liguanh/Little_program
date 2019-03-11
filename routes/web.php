@@ -42,8 +42,11 @@ Route::post('admin/doLogin','Admin\LoginController@doLogin');
 Route::get('admin/logout','Admin\LoginController@logout');
 
 //管理后台RBAC功能类的路由组
-Route::prefix('admin')->group(function(){
+Route::middleware('admin_auth')->prefix('admin')->group(function(){
 
     //管理后台首页
-    Route::get('home','Admin\HomeController@home');
+    Route::get('home','Admin\HomeController@home')->name('admin.home');
+
+    //权限列表
+    Route::get('/permission/list',function(){return 'list';})->name('admin.permission.list');
 });

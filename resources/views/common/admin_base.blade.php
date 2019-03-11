@@ -72,7 +72,25 @@
 
 	      <h5 class="sidebartitle">Navigation</h5>
 	      <ul class="nav nav-pills nav-stacked nav-bracket">
-	        <li class="active"><a href="首页.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
+
+          @if(!empty($menus))
+            @foreach($menus as $menu)
+              @if(isset($menu['son']))
+                <li class="nav-parent"><a href="{{ \Route::has($menu['url']) ? route($menu['url']) : '#'}}"><i class="fa fa-edit"></i> <span>{{$menu['name']}}</span></a>
+                  <ul class="children">
+                      @foreach($menu['son'] as $m)
+                      <li><a href="{{ \Route::has($m['url']) ? route($m['url']) : '#'}}"><i class="fa fa-caret-right"></i> {{$m['name']}}</a></li>
+                      @endforeach
+                  </ul>
+                </li>
+              @else 
+                <li class="active"><a href="{{ \Route::has($menu['url']) ? route($menu['url']) : '#'}}"><i class="fa fa-home"></i> <span>{{$menu['name']}}</span></a></li>
+              @endif
+
+            @endforeach
+
+          @endif
+	       <!--  <li class="active"><a href="首页.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
 	        <li class="nav-parent"><a href=""><i class="fa fa-edit"></i> <span>表单</span></a>
 	          <ul class="children">
 	            <li><a href="表单页面.html"><i class="fa fa-caret-right"></i> 添加/编辑表单</a></li>
@@ -82,7 +100,8 @@
 	          <ul class="children">
 	            <li><a href="列表模板.html"><i class="fa fa-caret-right"></i> 列表页面</a></li>
 	          </ul>
-	        </li>
+	        </li> -->
+
 	      </ul>
 
 	    </div><!-- leftpanelinner -->
@@ -103,8 +122,8 @@
           <li>
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                <img src="images/photos/loggeduser.png" alt="" />
-                John Doe
+                <img src="{{$user_pic}}" alt="" />
+                {{$username}}
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-usermenu pull-right">

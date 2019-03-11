@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\View;
+use App\Model\Permissions;
 
 class AdminAuth
 {
@@ -15,11 +17,18 @@ class AdminAuth
      */
     public function handle($request, Closure $next)
     {
-        $params = $request->all();
-
-        if(!isset($params['user_id']) || $params['user_id'] == 0){
-            echo "用户未登录";exit;
+        //判断用户是否登录
+        $session = $request->session();
+        if(!$session->has('user')){//如果用户未登录，调到登录页面
+            return redirect('/admin/login')->send();
         }
+
+        //完成视图的共享
+        View::share('username', $session->get('user.username'));
+        View::share('user_pic', $session->get('user.image_url'));
+
+        //左侧菜单视图共享
+        View::share('menus', Permissions::getMeuns());
 
         return $next($request);
     }

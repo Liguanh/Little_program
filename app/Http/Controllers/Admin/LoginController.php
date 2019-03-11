@@ -91,9 +91,10 @@ class LoginController extends Controller
 
     			$session = $request->session();//获取session对象
     			//存储用户id
-    			$session->put('user.user_id',$userInfo->id);
+    			$session->put('user.user_id',$userInfo->id);//用户id
     			$session->put('user.username',$userInfo->username);
     			$session->put('user.image_url',$userInfo->image_url);
+                $session->put('user.is_super',$userInfo->is_super);//是否超管
 
     			return json_encode($return);
     		}
