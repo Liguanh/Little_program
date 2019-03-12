@@ -34,6 +34,21 @@ class Permissions extends Model
     }
 
     /**
+     * 获取所有的权限节点
+     */
+    public static function getAllPermissions()
+    {
+        $permissions = self::select('id','fid','name','url')
+                        ->orderBy('sort')
+                        ->get()
+                        ->toArray();
+
+        $permissions = ToolsAdmin::buildTree($permissions);
+
+        return $permissions;
+    }
+
+    /**
      * 获取权限列表
      * @return array
      */

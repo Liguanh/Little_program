@@ -81,4 +81,27 @@ Route::middleware('admin_auth')->prefix('admin')->group(function(){
     Route::post('/user/doEdit','Admin\AdminUsersController@doEdit')->name('admin.user.doEdit');
 
      /*#############################[用户相关]#############################*/
+
+
+     /*#############################[角色相关]#############################*/
+
+     //角色列表
+     Route::get('/role/list','Admin\RoleController@list')->name('admin.role.list');
+     //角色删除
+     Route::get('/role/del/{id}','Admin\RoleController@delRole')->name('admin.role.del');
+
+     //角色添加
+     Route::get('/role/create','Admin\RoleController@create')->name('admin.role.create');
+     //角色执行添加
+     Route::post('/role/store','Admin\RoleController@store')->name('admin.role.store');
+
+     //角色编辑
+     Route::get('/role/edit/{id}','Admin\RoleController@edit')->name('admin.role.edit');
+     //角色执行编辑
+     Route::post('/role/doEdit','Admin\RoleController@doEdit')->name('admin.role.doEdit');
+
+     //角色权限编辑
+     Route::get('/role/permission/{id}','Admin\RoleController@rolePermission')->name('admin.role.permission');
+     //角色权限执行编辑
+     Route::post('/role/permission/save','Admin\RoleController@saveRolePermission')->name('admin.role.permission.save');
 });

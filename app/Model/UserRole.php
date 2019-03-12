@@ -28,6 +28,14 @@ class UserRole extends Model
     }
 
     /**
+     * 通过角色id删除记录
+     */
+    public function delByRoleId($roleId)
+    {
+        return self::where('role_id', $roleId)->delete();
+    }
+
+    /**
      * 通过用户id获取记录
      */
     public function getByUserId($userId)

@@ -12,7 +12,7 @@
 
 @section('content')
 
-<div class="alert alert-danger">
+	<div class="alert alert-danger">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <span id="error_msg"></span>
     </div>
@@ -82,7 +82,7 @@
           
         </div><!-- panel-body -->
 
-        <script type="text/javascript">
+        <!-- <script type="text/javascript">
 
         	$(".alert-danger").hide();
 
@@ -100,5 +100,5 @@
 
         	});
 
-        </script>
+        </script> -->
 @endsection
