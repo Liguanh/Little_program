@@ -47,5 +47,33 @@ class ToolsAdmin
 
 		return $menus;
 	}
+
+	/**
+	 * 文件上传函数
+	 * @param $files $object
+	 * @return string url
+	 */
+	public static function uploadFile($files)
+	{
+		//参数为空
+		if(empty($files)){
+			return "";
+		}
+
+		//文件上传的目录
+		$basePath = 'uploads/'.date("Y-m-d",time());
+
+		//目录不存在
+		if(!file_exists($basePath)){
+			@mkdir($basePath, 755, true);
+		}
+
+		//文件名字
+		$filename = "/".date("YmdHis",time()).rand(0,10000).".".$files->extension();
+
+		@move_uploaded_file($files->path(), $basePath.$filename);//执行文件的上传
+
+		return '/'.$basePath.$filename;
+	}
 	
 }

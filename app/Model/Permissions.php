@@ -65,4 +65,6 @@ class Permissions extends Model
     {
     	return self::where('id',$id)->delete();
     }
+
+   
 }

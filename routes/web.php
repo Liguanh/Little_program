@@ -47,7 +47,7 @@ Route::middleware('admin_auth')->prefix('admin')->group(function(){
     //管理后台首页
     Route::get('home','Admin\HomeController@home')->name('admin.home');
 
-   
+   /*#############################[权限相关]#############################*/
     //权限列表
     Route::get('/permission/list','Admin\PermissionController@list')->name('admin.permission.list');
     //获取权限的数据
@@ -59,4 +59,26 @@ Route::middleware('admin_auth')->prefix('admin')->group(function(){
     //删除权限的操作
     Route::get('/permission/del/{id}','Admin\PermissionController@del')->name('admin.permission.del');
 
+    /*#############################[权限相关]#############################*/
+
+
+
+    /*#############################[用户相关]#############################*/
+    //用户添加页面
+    Route::get('/user/add','Admin\AdminUsersController@create')->name('admin.user.add');
+    //执行用户添加
+    Route::post('/user/store','Admin\AdminUsersController@store')->name('admin.user.store');
+
+    //用户列表页面
+    Route::get('/user/list','Admin\AdminUsersController@list')->name('admin.user.list');
+
+    //用户删除操作
+    Route::get('/user/del/{id}','Admin\AdminUsersController@delUser')->name('admin.user.del');
+
+    //用户编辑页面
+    Route::get('/user/edit/{id}','Admin\AdminUsersController@edit')->name('admin.user.edit');
+    //用户执行编辑页面
+    Route::post('/user/doEdit','Admin\AdminUsersController@doEdit')->name('admin.user.doEdit');
+
+     /*#############################[用户相关]#############################*/
 });
