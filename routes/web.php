@@ -41,8 +41,12 @@ Route::post('admin/doLogin','Admin\LoginController@doLogin');
 //用户退出
 Route::get('admin/logout','Admin\LoginController@logout');
 
+Route::get('403',function(){
+    return view('403');
+});
+
 //管理后台RBAC功能类的路由组
-Route::middleware('admin_auth')->prefix('admin')->group(function(){
+Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(function(){
 
     //管理后台首页
     Route::get('home','Admin\HomeController@home')->name('admin.home');

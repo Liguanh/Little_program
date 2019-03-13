@@ -75,5 +75,49 @@ class ToolsAdmin
 
 		return '/'.$basePath.$filename;
 	}
+
+	/**
+	 * 获取用户所有权限的主键id
+	 * 1、根据用户userId 查询角色id
+	 * 2、根据角色id查询权限id
+	 */
+
+	public static function getUserPermissionIds($userId)
+	{
+
+		if(!isset($userId) || empty($userId)){
+			return [];
+		}
+
+		$userRole =  new \App\Model\UserRole();
+
+		$roles = $userRole->getByUserId($userId);//根据用户id去查询角色id
+
+		//角色id没有不存在
+		if( empty($roles) ){
+			return [];	
+		}	
+
+
+		$roleP = new \App\Model\RolePermission();
+
+		$pids = $roleP->getPermissionByRoleId($roles->role_id);//根据用户的角色id去调用权限id集合
+
+		return $pids;
+	}
+
+	/**
+	 * 获取当前登录用户的所有的权限url地址
+	 */
+	public static function getUrlsByUserId($userId)
+	{
+		$pids = self::getUserPermissionIds($userId); //获取所有权限节点id
+
+
+		$urls = \App\Model\Permissions::getUrlsByIds($pids);//根据权限节点id获取所有的权限的url地址
+
+
+		return $urls;
+	}
 	
 }

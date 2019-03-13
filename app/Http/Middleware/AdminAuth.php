@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\View;
 use App\Model\Permissions;
+use App\Tools\ToolsAdmin;
 
 class AdminAuth
 {
@@ -28,7 +29,9 @@ class AdminAuth
         View::share('user_pic', $session->get('user.image_url'));
 
         //左侧菜单视图共享
-        View::share('menus', Permissions::getMeuns());
+        $user = $session->get('user');
+        //dd($user);
+        View::share('menus', Permissions::getMeuns($user));
 
         return $next($request);
     }

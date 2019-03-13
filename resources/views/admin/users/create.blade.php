@@ -60,6 +60,18 @@
                 <input type="file" placeholder="用户头像" class="form-control" name="image_url" />
               </div>
             </div> 
+            <div class="form-group">
+              <label class="col-sm-3 control-label">文本域</label>
+              <div class="col-sm-8">
+                <textarea id="container" class="form-control" rows="5" name="aaa" style="border: none;"></textarea>
+              </div>
+            </div> 
+            <div class="form-group">
+              <label class="col-sm-3 control-label">文本域</label>
+              <div class="col-sm-8">
+                <textarea id="container1" class="form-control" rows="5" name="aaa" style="border: none;"></textarea>
+              </div>
+            </div> 
             
             <div class="form-group">
               <label class="col-sm-3 control-label">是否超管</label>
@@ -87,7 +99,13 @@
           
         </div><!-- panel-body -->
 
+        <script type="text/javascript" src="/js/ueditor/ueditor.config.js"></script>
+        <script type="text/javascript" src="/js/ueditor/ueditor.all.min.js"></script>
+
         <script type="text/javascript">
+
+          var ue = UE.getEditor('container');
+          var ue1 = UE.getEditor('container1');
 
         	$(".alert-danger").hide();
 
