@@ -36,7 +36,6 @@ class AdminUsersController extends Controller
     {
     	$params = $request->all();
 
-        dd($params);
 
     	//文件上传
     	$image_url = ToolsAdmin::uploadFile($params['image_url']);

@@ -108,4 +108,18 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      Route::get('/role/permission/{id}','Admin\RoleController@rolePermission')->name('admin.role.permission');
      //角色权限执行编辑
      Route::post('/role/permission/save','Admin\RoleController@saveRolePermission')->name('admin.role.permission.save');
+
+     /*#############################[角色相关]#############################*/
+
+
+     /*#############################[小说相关]#############################*/
+
+     //作者列表
+     Route::get('author/list','Admin\AuthorController@list')->name('admin.author.list');
+     //作者添加
+     Route::get('author/create','Admin\AuthorController@create')->name('admin.author.create');
+     //作者执行添加
+     Route::post('author/store','Admin\AuthorController@store')->name('admin.author.store');
+     //作者执行删除
+     Route::get('author/del/{id}','Admin\AuthorController@del')->name('admin.author.del');
 });
