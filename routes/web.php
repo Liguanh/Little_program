@@ -159,5 +159,16 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //执行章节编辑
      Route::post('chapter/doEdit','Admin\ChapterController@doEdit')->name('admin.chapter.doEdit');
 
+
+     //小说评论列表页面
+     Route::get('novel/comment/list','Admin\CommentController@list')->name('admin.novel.comment.list');
+     //小说数据
+     Route::get('novel/comment/data','Admin\CommentController@getComment')->name('admin.novel.comment.data');
+     //小说评论审核
+     Route::get('novel/comment/check/{id}','Admin\CommentController@check')->name('admin.novel.comment.check');
+
+     //小说评论删除
+     Route::get('novel/comment/del/{id}','Admin\CommentController@del')->name('admin.novel.comment.del');
+
      /*#############################[小说相关]#############################*/
 });
