@@ -27,8 +27,15 @@ class Author extends Model
     	return self::insert($data);
     }
 
+    //删除作者
     public function delRecord($id)
     {
     	return self::where('id',$id)->delete();
+    }
+
+    //获取作者列表
+    public function getAuthor()
+    {
+        return self::get()->toArray();
     }
 }

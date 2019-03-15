@@ -122,4 +122,42 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      Route::post('author/store','Admin\AuthorController@store')->name('admin.author.store');
      //作者执行删除
      Route::get('author/del/{id}','Admin\AuthorController@del')->name('admin.author.del');
+
+     //分类列表
+     Route::get('category/list','Admin\CategoryController@list')->name('admin.category.list');
+     //分类添加
+     Route::get('category/create','Admin\CategoryController@create')->name('admin.category.create');
+     //执行分类添加
+     Route::post('category/store','Admin\CategoryController@store')->name('admin.category.store');
+     //分类删除
+     Route::get('category/del/{id}','Admin\CategoryController@del')->name('admin.category.del');
+
+
+     //小说添加
+     Route::get('novel/create','Admin\NovelController@create')->name('admin.novel.create');
+     //执行小说添加
+     Route::post('novel/store','Admin\NovelController@store')->name('admin.novel.store');
+     //小说列表
+     Route::get('novel/list','Admin\NovelController@list')->name('admin.novel.list');
+     //小说编辑
+     Route::get('nove/edit/{id}','Admin\NovelController@edit')->name('admin.novel.edit');
+     //执行小说编辑
+     Route::post('nove/doEdit','Admin\NovelController@doEdit')->name('admin.novel.doEdit');
+     //小说的删除
+     Route::get('novel/del/{id}','Admin\NovelController@del')->name('admin.novel.del');
+
+     //添加小说章节页面
+     Route::get('chapter/add/{novel_id}','Admin\ChapterController@create')->name('admin.chapter.create');
+     //保存小说的章节
+     Route::post('chapter/store','Admin\ChapterController@store')->name('admin.chapter.store');
+     //小说章节列表
+     Route::get('chapter/list/{novel_id?}','Admin\ChapterController@list')->name('admin.chapter.list');
+     //章节删除
+     Route::get('chapter/del/{id}','Admin\ChapterController@del')->name('admin.chapter.del');
+     //章节编辑
+     Route::get('chapter/edit/{id}','Admin\ChapterController@edit')->name('admin.chapter.edit');
+     //执行章节编辑
+     Route::post('chapter/doEdit','Admin\ChapterController@doEdit')->name('admin.chapter.doEdit');
+
+     /*#############################[小说相关]#############################*/
 });
