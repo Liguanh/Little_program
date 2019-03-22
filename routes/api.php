@@ -37,3 +37,12 @@ Route::post('search/novel', 'Api\SearchController@getSearchList');
 Route::get('book/list','Api\NovelController@bookList');
 //小说阅读榜单接口
 Route::post('read/rank','Api\NovelController@bookRank');
+
+//小说详情接口
+Route::post('novel/detail/{id}','Api\NovelController@detail');
+Route::any('novel/clicks/{id}','Api\NovelController@clicks');
+Route::any('novel/read/{id}','Api\NovelController@readNum');
+
+//小说章节列表接口
+Route::post('chapter/list/{novel_id}','Api\ChapterController@chapterList');
+Route::post('chapter/info/{id}','Api\ChapterController@chapterInfo');

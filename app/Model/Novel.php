@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 
 class Novel extends Model
@@ -122,5 +123,37 @@ class Novel extends Model
                     ->toArray();
 
         return $list;
+    }
+
+    //api 接口的小说详情
+    public function getApiNovelDetail($id)
+    {
+
+        $detail = self::select('novel.id','name','image_url','status','author_name','c_name','desc','tags','read_num')
+                ->leftJoin('author','a_id','=','author.id')
+                ->leftJoin('category','c_id','=','category.id')
+                ->where('novel.id',$id)
+                ->first();
+
+
+        return $detail;
+
+    }
+
+    //更新点击次数
+    public function updateClicks($id)
+    {
+        $res = self::where('id', $id)
+                ->update(['clicks'=> DB::raw('clicks+1')]);
+
+        return $res;
+    }
+
+    public function updateRead($id)
+    {
+        $res = self::where('id',$id)
+               ->update(['read_num'=> DB::raw('read_num+1')]);
+
+        return $res;
     }
 }

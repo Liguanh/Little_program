@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Novel;
+use App\Model\Chapter;
 
 class NovelController extends Controller
 {
@@ -42,6 +43,62 @@ class NovelController extends Controller
     		'code' => 2000,
     		'msg'  => '获取小说阅读榜单成功',
     		'data' => $list
+    	];
+
+    	return json_encode($return);
+    }
+
+    //小说详情接口
+    public function detail($id)
+    {
+    	$novel = new Novel();
+    	$chapter = new Chapter();
+
+    	$detail = $novel->getApiNovelDetail($id);
+
+    	$first = $chapter->getFirstChapter($id);//小说第一章节的id
+
+    	if(empty($first)){
+    		$chapterId = 0;
+    	}else{
+    		$chapterId = $first->id;
+    	}
+
+    	$return = [
+    		'code' => 2000,
+    		'msg'  => "获取小说详情成功",
+    		'data' => ['chapter_id'=>$chapterId,
+    			'detail' => $detail
+    		]
+    	];
+
+    	return json_encode($return);
+    }
+
+    //小说点击次数接口
+    public function clicks($id)
+    {
+    	$novel = new Novel();
+
+    	$novel->updateClicks($id);
+
+    	$return = [
+    		'code' => 2000,
+    		'msg'  => "更新点击次数成功"
+    	];
+
+    	return json_encode($return);
+    }
+
+    public function readNum($id)
+    {
+    	$novel = new Novel();
+
+    	$novel->updateRead($id);
+
+    	$return = [
+    		'code' => 2000,
+    		'msg'  => "更新点击次数成功"
     	];
 
     	return json_encode($return);

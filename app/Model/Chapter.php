@@ -50,4 +50,51 @@ class Chapter extends Model
     {
     	return self::where('id',$id)->update($data);
     }
+
+    //获取Api接口的小说列表
+    public function getApiChapterList($novelId)
+    {
+        $list = self::select('id','novel_id','title')
+                  ->where('novel_id',$novelId)
+                  ->orderBy('sort')
+                  ->get()
+                  ->toArray();
+
+        return $list;
+    }
+
+    //获取小说的第一章节
+    public function getFirstChapter($novelId)
+    {
+
+        $first = self::where('novel_id',$novelId)
+                    ->first();
+
+
+        return $first;
+    }
+
+    //获取小说上一章节内容  $novelId 小说id  $sort 章节号
+    public function getPrevChapter($novelId, $sort)
+    {
+        $prev = self::where('novel_id',$novelId)
+                    ->where('sort', $sort-1)
+                    ->first();
+
+
+        return $prev;
+    }
+
+    //获取小说下一章节内容  $novelId 小说id  $sort 章节号
+    public function getNextChapter($novelId, $sort)
+    {
+        $prev = self::where('novel_id',$novelId)
+                    ->where('sort', $sort+1)
+                    ->first();
+
+
+        return $prev;
+    }
+
+    
 }
