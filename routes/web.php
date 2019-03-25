@@ -30,6 +30,15 @@ Route::prefix('study')->group(function(){
     Route::get('bonus/record/list','Study\BonusController@getBonusRecord');
 
     Route::any('get/bonus', 'Study\BonusController@getBonus'); //获取红包的路由
+
+
+    Route::get('guess/add','Study\GuessController@add');//竞猜添加页面
+    Route::post('guess/doAdd','Study\GuessController@doAdd');//竞猜添加页面
+    Route::get('guess/list','Study\GuessController@list');//竞猜列表页面
+
+    Route::get('guess/guess','Study\GuessController@guess');//竞猜添加页面doGuess
+    Route::get('guess/result','Study\GuessController@checkResult');//竞猜添加页面doGuess
+    Route::post('guess/doGuess','Study\GuessController@doGuess');//竞猜添加页面
 });
 
 
