@@ -30,4 +30,21 @@ class Comment extends Model
     {
     	return self::where('id',$id)->delete();
     }
+
+    //添加评论
+    public function addComment($data)
+    {
+        return self::insert($data);
+    }
+
+    //获取小说评论列表
+    public function getApiList($novelId)
+    {
+        return self::select('comment.id','user.username','content','comment.created_at')
+                ->leftJoin('user','user.id','=','comment.user_id')
+                ->where('comment.novel_id',$novelId)
+                ->orderBy('comment.id','desc')
+                ->get()
+                ->toArray();
+    }
 }
