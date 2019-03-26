@@ -39,6 +39,10 @@ Route::prefix('study')->group(function(){
     Route::get('guess/guess','Study\GuessController@guess');//竞猜添加页面doGuess
     Route::get('guess/result','Study\GuessController@checkResult');//竞猜添加页面doGuess
     Route::post('guess/doGuess','Study\GuessController@doGuess');//竞猜添加页面
+
+    Route::get('lottery/index','Study\LotteryController@lottery');//抽奖页面
+
+    Route::any('lottery/do','Study\LotteryController@doLottery');//执行抽奖
 });
 
 
