@@ -123,4 +123,25 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
 
      Route::post('brand/change/attr','Admin\BrandController@changeAttr')->name('admin.brand.change.attr');//修改品牌的属性值
      /*#############################[商品品牌相关]#############################*/
+
+     /*#############################[商品分类相关]#############################*/
+     //商品分类列表页面
+     Route::get('category/list', 'Admin\CategoryController@list')->name('admin.category.list');
+     //获取商品接口分类的数据
+     Route::get('category/get/data/{fid?}','Admin\CategoryController@getListData')->name('admin.category.get.data');
+
+     //商品添加页面
+     Route::get('category/add','Admin\CategoryController@add')->name('admin.category.add');
+     //商品执行添加操作
+     Route::post('category/doAdd','Admin\CategoryController@doAdd')->name('admin.category.doAdd');
+
+     //商品编辑页面
+     Route::get('category/edit/{id}','Admin\CategoryController@edit')->name('admin.category.edit');
+     //商品执行编辑操作
+     Route::post('category/doEdit','Admin\CategoryController@doEdit')->name('admin.category.doEdit');
+
+     //商品执行删除操作
+     Route::get('category/del/{id}','Admin\CategoryController@del')->name('admin.category.del');
+     /*#############################[商品分类相关]#############################*/
 });
+
