@@ -110,4 +110,17 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      Route::post('/role/permission/save','Admin\RoleController@saveRolePermission')->name('admin.role.permission.save');
 
      /*#############################[角色相关]#############################*/
+
+     /*#############################[商品品牌相关]#############################*/
+     Route::get('brand/list','Admin\BrandController@list')->name('admin.brand.list');//品牌列表页面
+     Route::post('brand/data/list','Admin\BrandController@getListData')->name('admin.brand.data.list');//品牌列表数据
+
+     Route::get('brand/add','Admin\BrandController@add')->name('admin.brand.add');//品牌添加页面
+     Route::post('brand/doAdd','Admin\BrandController@doAdd')->name('admin.brand.doAdd');//执行商品品牌添加
+     Route::get('brand/edit/{id}','Admin\BrandController@edit')->name('admin.brand.edit');//品牌修改页面
+     Route::post('brand/doEdit','Admin\BrandController@doEdit')->name('admin.brand.doEdit');//执行商品品牌修改
+     Route::get('brand/del/{id}','Admin\BrandController@del')->name('admin.brand.del');//执行删除的操作
+
+     Route::post('brand/change/attr','Admin\BrandController@changeAttr')->name('admin.brand.change.attr');//修改品牌的属性值
+     /*#############################[商品品牌相关]#############################*/
 });
