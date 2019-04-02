@@ -178,5 +178,40 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //文章分类的删除
      Route::get('article/del/{id}','Admin\ArticleController@del')->name('admin.article.del');
      /*#############################[文章相关]#############################*/
+
+     /*#############################[广告位相关]#############################*/
+     //广告位列表
+     Route::get('position/list','Admin\AdPositionController@list')->name('admin.position.list');
+     //广告位添加页面
+     Route::get('position/add','Admin\AdPositionController@add')->name('admin.position.add');
+     //广告位添加页面
+     Route::post('position/store','Admin\AdPositionController@store')->name('admin.position.store');
+
+     //广告位编辑
+     Route::get('position/edit/{id}','Admin\AdPositionController@edit')->name('admin.position.edit');
+     //广告位执行编辑
+     Route::post('position/save','Admin\AdPositionController@doEdit')->name('admin.position.save');
+
+     //广告位删除
+     Route::get('position/del/{id}','Admin\AdPositionController@del')->name('admin.position.del');
+     /*#############################[广告位相关]#############################*/
+
+     /*#############################[广告相关]#############################*/
+
+     //广告位列表
+     Route::get('ad/list','Admin\AdController@list')->name('admin.ad.list');
+     //广告位添加页面
+     Route::get('ad/add','Admin\AdController@add')->name('admin.ad.add');
+     //广告添加页面
+     Route::post('ad/store','Admin\AdController@store')->name('admin.ad.store');
+
+      //广告编辑
+     Route::get('ad/edit/{id}','Admin\AdController@edit')->name('admin.ad.edit');
+     //广告执行编辑
+     Route::post('ad/save','Admin\AdController@doEdit')->name('admin.ad.save');
+
+      //广告位删除
+     Route::get('ad/del/{id}','Admin\AdController@del')->name('admin.ad.del');
+     /*#############################[广告位相关]#############################*/
 });
 
