@@ -143,5 +143,40 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //商品执行删除操作
      Route::get('category/del/{id}','Admin\CategoryController@del')->name('admin.category.del');
      /*#############################[商品分类相关]#############################*/
+
+     /*#############################[文章分类相关]#############################*/
+
+     //文章分类列表
+     Route::get('article/category/list','Admin\ArticleCategoryController@list')->name('admin.article.categroy.list');
+     //文章分类添加
+     Route::get('article/category/add','Admin\ArticleCategoryController@add')->name('admin.article.categroy.add');
+     //文章分类执行添加
+     Route::post('article/category/store','Admin\ArticleCategoryController@store')->name('admin.article.categroy.store');
+
+     //文章分类编辑
+     Route::get('article/category/edit/{id}','Admin\ArticleCategoryController@edit')->name('admin.article.categroy.edit');
+     //文章分类执行编辑
+     Route::post('article/category/save','Admin\ArticleCategoryController@doEdit')->name('admin.article.categroy.save');
+     //文章分类的删除
+     Route::get('article/category/del/{id}','Admin\ArticleCategoryController@del')->name('admin.article.categroy.del');
+     /*#############################[文章分类相关]#############################*/
+
+     /*#############################[文章相关]#############################*/
+
+      //文章列表
+     Route::get('article/list','Admin\ArticleController@list')->name('admin.article.list');
+     //文章添加
+     Route::get('article/add','Admin\ArticleController@add')->name('admin.article.add');
+     //文章执行添加
+     Route::post('article/store','Admin\ArticleController@store')->name('admin.article.store');
+
+     //文章分类编辑
+     Route::get('article/edit/{id}','Admin\ArticleController@edit')->name('admin.article.edit');
+     //文章分类执行编辑
+     Route::post('article/save','Admin\ArticleController@doEdit')->name('admin.article.save');
+
+     //文章分类的删除
+     Route::get('article/del/{id}','Admin\ArticleController@del')->name('admin.article.del');
+     /*#############################[文章相关]#############################*/
 });
 
