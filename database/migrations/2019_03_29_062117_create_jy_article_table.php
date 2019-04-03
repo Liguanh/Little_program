@@ -23,6 +23,7 @@ class CreateJyArticleTable extends Migration
             $table->enum('status',[1,2,3])->default(1)->comment('文章状态 1、待审核 2、审核 3、发布');
             $table->string('description')->default('')->comment('文章描述');
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 

@@ -17,6 +17,7 @@ class CreateJyGoodsTypeTable extends Migration
             $table->increments('id')->comment('商品类型表');
             $table->string('type_name',20)->default('')->comment('商品类型名字');
             $table->enum('status',[1,2])->default('1')->comment('1可用2禁用');
+            $table->engine = 'InnoDB';
         });
     }
 

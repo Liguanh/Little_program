@@ -38,6 +38,8 @@ class CreateJyGoodsTable extends Migration
             $table->unique('goods_sn');
             $table->index('goods_name');
             $table->index('keywords');
+
+            $table->engine = 'InnoDB';
         });
     }
 

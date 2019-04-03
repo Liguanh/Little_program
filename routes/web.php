@@ -213,5 +213,22 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
       //广告位删除
      Route::get('ad/del/{id}','Admin\AdController@del')->name('admin.ad.del');
      /*#############################[广告位相关]#############################*/
+
+     /*#############################[商品类型]#############################*/
+
+     //商品类型列表
+     Route::get('goods/type/list','Admin\GoodsTypeController@list')->name('admin.goods.type.list');
+     //商品类型添加页面
+     Route::get('goods/type/add','Admin\GoodsTypeController@add')->name('admin.goods.type.add');
+     //商品类型添加页面
+     Route::post('goods/type/store','Admin\GoodsTypeController@store')->name('admin.goods.type.store');
+      //广告编辑
+     Route::get('goods/type/edit/{id}','Admin\GoodsTypeController@edit')->name('admin.goods.type.edit');
+     //广告执行编辑
+     Route::post('goods/type/save','Admin\GoodsTypeController@doEdit')->name('admin.goods.type.save');
+
+     //商品类型删除
+     Route::get('goods/type/del/{id}','Admin\GoodsTypeController@del')->name('admin.goods.type.del');
+     /*#############################[商品类型]#############################*/
 });
 

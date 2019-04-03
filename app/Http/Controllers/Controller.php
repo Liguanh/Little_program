@@ -50,6 +50,14 @@ class Controller extends BaseController
     	return $info;
     }
 
+    //没有分页的数据列表
+    public function getDataList($object, $where = [])
+    {
+        $list = $object->get()->toArray();
+
+        return $list;
+    }
+
     //删除公共方法
     public function delData($object, $id,$key="id")
     {
