@@ -11,6 +11,9 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    const 
+        PAGE_SIZE = 5,
+        END       = TRUE;
 
     //删除_token下划线token值
     public function delToken(array $params)
@@ -56,6 +59,13 @@ class Controller extends BaseController
         $list = $object->get()->toArray();
 
         return $list;
+    }
+
+    //获取带有分页的数据列表
+    public function getPageList($object, $where=[])
+    {
+        $list = $object->where($where)
+                    ->paginate(self::PAGE_SIZE);
     }
 
     //删除公共方法

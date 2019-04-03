@@ -230,5 +230,23 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //商品类型删除
      Route::get('goods/type/del/{id}','Admin\GoodsTypeController@del')->name('admin.goods.type.del');
      /*#############################[商品类型]#############################*/
+
+     /*#############################[商品属性]#############################*/
+
+     //商品属性列表
+     Route::get('goods/attr/list/{type_id}','Admin\GoodsAttrController@list')->name('admin.goods.attr.list');
+     //商品属性添加页面
+     Route::get('goods/attr/add','Admin\GoodsAttrController@add')->name('admin.goods.attr.add');
+      //商品类型添加页面
+     Route::post('goods/attr/store','Admin\GoodsAttrController@store')->name('admin.goods.attr.store');
+
+     //商品属性修改页面
+     Route::get('goods/attr/edit/{id}','Admin\GoodsAttrController@edit')->name('admin.goods.attr.edit');
+      //商品类型修改页面
+     Route::post('goods/attr/save','Admin\GoodsAttrController@doEdit')->name('admin.goods.attr.save');
+
+     //商品属删除页面
+     Route::get('goods/attr/del/{id}','Admin\GoodsAttrController@del')->name('admin.goods.attr.del');
+     /*#############################[商品属性]#############################*/
 });
 

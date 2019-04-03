@@ -34,7 +34,7 @@
                         <td>{{$type['type_name']}}</td>
                         <td >{{$type['status'] == 1 ? '可用' : '禁用' }}</td>
                         <td class="col-md-3">
-                            <a class="btn btn-sm btn-success" >查看属性</a>&nbsp;
+                            <a class="btn btn-sm btn-success" href="/admin/goods/attr/list/{{$type['id']}}" >查看属性</a>&nbsp;
                             <a class="btn btn-sm btn-warning" href="/admin/goods/type/edit/{{$type['id']}}">编辑</a>&nbsp;
                             <a class="btn btn-sm btn-danger" href="/admin/goods/type/del/{{$type['id']}}">删除</a>&nbsp;
                         </td>
