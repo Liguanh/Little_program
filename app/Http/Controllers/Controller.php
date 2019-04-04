@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     const 
-        PAGE_SIZE = 5,
+        PAGE_SIZE = 1,
         END       = TRUE;
 
     //删除_token下划线token值
@@ -77,6 +77,7 @@ class Controller extends BaseController
     public function getPageList($object, $where=[])
     {
         $list = $object->where($where)
+                    ->orderBy('id','desc')
                     ->paginate(self::PAGE_SIZE);
 
         return $list;
