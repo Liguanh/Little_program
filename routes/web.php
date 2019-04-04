@@ -248,5 +248,15 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //商品属删除页面
      Route::get('goods/attr/del/{id}','Admin\GoodsAttrController@del')->name('admin.goods.attr.del');
      /*#############################[商品属性]#############################*/
+
+     /*#############################[商品相关]#############################*/
+
+     //商品列表
+     Route::get('goods/list','Admin\GoodsController@list')->name('admin.goods.list');
+     // 商品添加
+     Route::get('goods/add','Admin\GoodsController@add')->name('admin.goods.add');
+      //商品添加操作
+     Route::post('goods/store','Admin\GoodsController@store')->name('admin.goods.store');
+      /*#############################[商品相关]#############################*/
 });
 

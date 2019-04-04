@@ -41,6 +41,18 @@ class Controller extends BaseController
     	return $object->save();
     }
 
+    //保存数据并且获取id，单条
+    public function storeDataGetId($object, $params)
+    {
+        return $object->insertGetId($params);
+    }
+
+    //多条数据添加
+    public function storeDataMany($object, $params)
+    {
+        return $object->insert($params);
+    }
+
     //获取数据的公共方法操作
     public function getDataInfo($object, $id, $key="id")
     {
@@ -56,7 +68,7 @@ class Controller extends BaseController
     //没有分页的数据列表
     public function getDataList($object, $where = [])
     {
-        $list = $object->get()->toArray();
+        $list = $object->where($where)->get()->toArray();
 
         return $list;
     }
@@ -66,6 +78,8 @@ class Controller extends BaseController
     {
         $list = $object->where($where)
                     ->paginate(self::PAGE_SIZE);
+
+        return $list;
     }
 
     //删除公共方法
