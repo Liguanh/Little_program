@@ -16,8 +16,8 @@ class CreateJyActivityTable extends Migration
         Schema::create('jy_activity', function (Blueprint $table) {
             $table->increments('id')->comment('运营活动配置表');
             $table->string('name',20)->default('')->comment('活动名字');
-            $table->timestamp('start_time')->comment('开始时间');
-            $table->timestamp('end_time')->comment('结束时间');
+            $table->datetime('start_time')->comment('开始时间');
+            $table->datetime('end_time')->comment('结束时间');
             $table->string('activity_config',80)->default('')->comment('活动配置');
         });
     }

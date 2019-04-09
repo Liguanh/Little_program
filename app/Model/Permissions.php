@@ -9,14 +9,14 @@ use App\Tools\ToolsAdmin;
 class Permissions extends Model
 {
     //指定表名
-    protected $table = "Permissions";
+    protected $table = "permissions";
 
-    const 
+    const
     	IS_MENU = 1, //是菜单
     	IS_NO_MENU = 2, //不是菜单
 
     	END = true;
-    
+
     /**
      * 获取左侧菜单栏的权限数据
      * @return array
@@ -114,5 +114,5 @@ class Permissions extends Model
         return $urls;
     }
 
-   
+
 }
