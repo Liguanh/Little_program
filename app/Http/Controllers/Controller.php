@@ -54,13 +54,13 @@ class Controller extends BaseController
     }
 
     //获取数据的公共方法操作
-    public function getDataInfo($object, $id, $key="id")
+    public function getDataInfo($object, $id, $key="id",$fields= "*")
     {
     	if(empty($id)){
     		return false;
     	}
 
-    	$info = $object->where($key, $id)->first();
+    	$info = $object->select($fields)->where($key, $id)->first();
 
     	return $info;
     }
