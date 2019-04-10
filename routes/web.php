@@ -289,6 +289,10 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
 
      Route::any('goods/sku/list/bind/{goods_id}','Admin\GoodsSkuController@getSkuList')->name('admin.goods.sku.list.bind');
 
+
+     //商品评论列表
+     Route::get('goods/comment/list','Admin\CommentController@list')->name('admin.goods.comment.list');
+
       /*#############################[商品相关]#############################*/
 });
 
