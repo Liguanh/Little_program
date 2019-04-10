@@ -22,6 +22,7 @@ class Comment extends Model
     				->leftJoin('jy_user','jy_comment.user_id','=','jy_user.id')
     				->where('type', self::GOODS_TYPE)
     				->where($where)
+    				->orderBy('jy_comment.id','desc')
     				->paginate(5);
 
     	return $comment;

@@ -293,6 +293,8 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //商品评论列表
      Route::get('goods/comment/list','Admin\CommentController@list')->name('admin.goods.comment.list');
 
+     Route::get('goods/comment/del/{id}','Admin\CommentController@del')->name('admin.goods.comment.del');
+
       /*#############################[商品相关]#############################*/
 });
 

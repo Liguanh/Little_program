@@ -17,4 +17,14 @@ class CommentController extends Controller
 
     	return view('admin.comment.list',$assign);
     }
+
+    //删除
+    public function del($id)
+    {
+    	$comment = new Comment();
+
+    	$this->delData($comment,$id);
+
+    	return redirect('/admin/goods/comment/list');
+    }
 }

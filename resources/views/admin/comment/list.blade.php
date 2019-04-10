@@ -1,12 +1,12 @@
 @extends('common.admin_base')
 
-@section('title','管理后台会员列表')
+@section('title','管理后台商品评论')
 
 
 <!--页面顶部信息-->
 @section('pageHeader')
     <div class="pageheader">
-        <h2><i class="fa fa-home"></i> 会员列表 <span>Subtitle goes here...</span></h2>
+        <h2><i class="fa fa-home"></i> 商品评论 <span>Subtitle goes here...</span></h2>
         <div class="breadcrumb-wrapper">
             
         </div>
@@ -22,36 +22,34 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>头像</th>
-                        <th>手机号</th>
-                        <th>用户名</th>
-                        <th>账户积分</th>
-                        <th>账户余额</th>
-                        <th>用户状态</th>
-                        <th>邮箱地址</th>
-                        <th>默认收货地址</th>
+                        <th>商品名称</th>
+                        <th>评论者</th>
+                        <th>评论头像</th>
+                        <th>评论类型</th>
+                        <th>评论内容</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    
+                @if(!empty($comment))
+                    @foreach($comment as $val)
                     <tr>
-                        <td>1</td>
-                        <td><img  style="width:60px;" src="/images/photos/media2.png"></td>
-                        <td>121321321</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
+                        <td>{{$val->id or null}}</td>
+                        <td>{{$val->goods_name}}</td>
+                        <td>{{$val->username or 'admin'}}</td>
+                        <td><img  style="width:60px;" src="{{$val->image_url or '/images/photos/media2.png'}}"></td>
+                        <td>商评论品</td>
+                        <td>{{$val->content or null}}</td>
                         <td>
-                            <a class="btn btn-sm btn-success" href="/admin/member/detail">查看详情
+                            <a class="btn btn-sm btn-success" href="/admin/goods/comment/del/{{$val->id}}">删除
                             </a>
                         </td>
                     </tr>
+                    @endforeach
+                @endif
                     </tbody>
                 </table>
+                {{$comment->links()}}
             </div><!-- table-responsive -->
         </div>
     </div>
