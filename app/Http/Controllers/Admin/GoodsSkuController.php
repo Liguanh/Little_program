@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Goods;
 use App\Model\GoodsAttr;
 use App\Model\GoodsSku;
+use Illuminate\Support\Facades\DB;
 
 class GoodsSkuController extends Controller
 {
@@ -46,11 +47,47 @@ class GoodsSkuController extends Controller
     	return  view('admin.goodsSku.edit', $assign);
     }
 
+    //执行保存的操作
     public function doEdit(Request $request)
     {
     	$params = $request->all();
 
-    	dd($params);
+        //dd($params);
+
+        $params = $this->delToken($params);
+
+        try{
+            DB::beginTransaction();
+            $goodsSku = new GoodsSku();
+            //先删除之前关联过得数据
+            $this->delData($goodsSku,$params['goods_id'],'goods_id');
+
+            $sku_arr = [];
+            //添加spu的数据
+            foreach ($params['sku'] as $key => $value) {
+                $value['goods_id'] = $params['goods_id'];
+                $sku_arr[$key] = $value;
+            }
+
+            $this->storeDataMany($goodsSku, $sku_arr);
+
+
+            //添加sku的数据
+            $sku1_arr = [];
+            foreach ($params['sku1'] as $k => $v) {
+                $v['goods_id'] = $params['goods_id'];
+                $sku1_arr[$k] = $v;
+            }
+
+            $this->storeDataMany($goodsSku, $sku1_arr);
+
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+            \Log::error('sku属性保存失败'.$e->getMessage());
+        }
+
+        return redirect()->back();
     }
 
 
@@ -80,15 +117,28 @@ class GoodsSkuController extends Controller
   	}
 
   	//获取属性的value值
-  	public function getAttrValues($id)
+  	public function getAttrValues($goodsId)
   	{
+        //商品的详情
+        $goods = new  Goods();
+        $goods_info = $this->getDataInfo($goods,$goodsId);
+
   		//列表录入的商品的属性
         $goodsAttr = new GoodsAttr();
 
-        $data = $goodsAttr->getAttrValue($id);
+         $where = [
+            'cate_id' => $goods_info->type_id
+        ];
 
-        $string = str_replace('"""', '', $data->attr_value);
-        $arr = explode("\r\n", $string);
+        $data = $goodsAttr->getAttrList($where);
+
+        $arr = [];
+        $string = '';
+        foreach ($data as $key => $value) {
+            $string .= str_replace('"""', '', $value['attr_value'])."\r\n";
+        }
+
+        $arr = array_filter(explode("\r\n", $string));
 
         $return = [
         	'code' => 2000,
@@ -99,4 +149,12 @@ class GoodsSkuController extends Controller
        
         return json_encode($return);
   	}
+
+    public function getSkuList($goodsId)
+    {
+        //商品已经绑定过属性关系
+        $goodsSku = new GoodsSku();
+        $sku = $goodsSku->getSkuList($goodsId);
+        dd($sku);
+    }
 }

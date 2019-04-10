@@ -49,8 +49,8 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{{$v['attr_name']}}</label>
                     <div class="col-sm-6">
-                        <input type="hidden" name="sku[{{$k}}]['attr_id']" value="{{$v['id']}}">
-                        <input type="text" placeholder="{{$v['attr_name']}}" class="form-control" name="sku[{{$k}}]['sku_value']" value="{{$v['sku_value'] or null}}" />
+                        <input type="hidden" name="sku[{{$k}}][attr_id]" value="{{$v['id']}}">
+                        <input type="text" placeholder="{{$v['attr_name']}}" class="form-control" name="sku[{{$k}}][sku_value]" value="{{$v['sku_value'] or null}}" />
                     </div>
                 </div>
             @endforeach
@@ -63,37 +63,45 @@
                     {{csrf_field()}}
                     <!-- 相册添加表单-->
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">sku列表</label>
-                            <div class="col-sm-4">
-                                <select name="sku1[0][attr_id]" class="form-control" @change="getAttrValue">
+                            <label class="col-sm-1 control-label">sku列表</label>
+                            <div class="col-sm-3">
+                                <select name="sku1[0][attr_id]" class="form-control" >
                                     <option v-for="sku in attr_name_list" :value="sku.id">{sku.attr_name}</option>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            <label class="col-sm-2 control-label">sku的值</label>
+                            <label class="col-sm-1 control-label">sku的值</label>
                             <div class="col-sm-3">
                                 <select name="sku1[0][sku_value]" class="form-control">
                                     <option v-for="value in attr_value_list" :value="value">{value}</option>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" placeholder="属性价格" name="sku1[0][attr_price]">
+                            </div>
                             <div class="col-sm-1">
                                 <a class="btn btn-sm btn-primary" @click="add_upload"><i class="glyphicon glyphicon-plus"></i> </a>
                             </div>
                         </div>
                         <div class="form-group" v-for="(value,index) in gallery_data" :id="'data_'+index">
-                            <label class="col-sm-2 control-label">sku列表</label>
+                            <label class="col-sm-1 control-label">sku列表</label>
                             <input type="hidden" value="">
-                            <div class="col-sm-4">
-                                <select name="sku1[0][attr_id]" class="form-control" @change="getAttrValue">
+                            <div class="col-sm-3">
+                                <select :name="'sku1['+(index+1)+'][attr_id]'" class="form-control" >
                                     <option v-for="sku in attr_name_list" :value="sku.id">{sku.attr_name}</option>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                            <label class="col-sm-2 control-label">商品图片</label>
+                            <label class="col-sm-1 control-label">sku的值</label>
                             <div class="col-sm-3">
-                                <input type="file" placeholder="输入用户名" value="" class="form-control" name="img[][image_url]">
+                                 <select :name="'sku1['+(index+1)+'][sku_value]'" class="form-control">
+                                    <option v-for="value in attr_value_list" :value="value">{value}</option>
+                                </select>
                                 <span class="help-block"></span>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" :name="'sku1['+(index+1)+'][attr_price]'" placeholder="属性价格">
                             </div>
                             <div class="col-sm-1">
                                 <a @click="del_upload(index)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-minus"></i></a>
@@ -135,6 +143,7 @@
                 },
                 created: function(){
                     this.getSkuAttr();
+                    this.getAttrValue();
                 },
                 methods: {
                     //标签切换
@@ -175,11 +184,11 @@
                     },
                     //获取属性的值
                     getAttrValue: function(e){
-                        var attr_id = e.target.value;
+                        var goods_id = $("input[name=goods_id]").val();
                         var that = this;
 
                         $.ajax({
-                        url: "/admin/goods/attr/value/"+attr_id,
+                        url: "/admin/goods/attr/value/"+goods_id,
                         type: "post",
                         data: {_token: $("input[name=_token]").val()},
                         dataType:"json",

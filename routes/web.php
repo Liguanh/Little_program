@@ -287,6 +287,8 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      //商品属性值
      Route::any('goods/attr/value/{id}','Admin\GoodsSkuController@getAttrValues')->name('admin.goods.attr.value');
 
+     Route::any('goods/sku/list/bind/{goods_id}','Admin\GoodsSkuController@getSkuList')->name('admin.goods.sku.list.bind');
+
       /*#############################[商品相关]#############################*/
 });
 

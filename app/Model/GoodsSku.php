@@ -22,5 +22,18 @@ class GoodsSku extends Model
     	return $spu;
     }
 
+    //获取商品已经绑定的sku的属性
+    public function getSkuList($goodsId)
+    {
+        $sku = self::select('*')
+            ->leftJoin('jy_goods_attr','jy_goods_attr.id','=','jy_goods_sku.attr_id')
+            ->where('input_type', GoodsAttr::INPUT_LIST)
+            ->where('goods_id',$goodsId)
+            ->get()
+            ->toArray();
+
+        return $sku;
+    }
+
 
 }
