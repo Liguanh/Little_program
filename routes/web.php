@@ -296,5 +296,38 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      Route::get('goods/comment/del/{id}','Admin\CommentController@del')->name('admin.goods.comment.del');
 
       /*#############################[商品相关]#############################*/
+
+
+      /*#############################[系统管理]#############################*/
+
+      //支付方式列表
+      Route::get('payment/list','Admin\PaymentController@list')->name('admin.payment.list');
+      //添加页面
+      Route::get('payment/add','Admin\PaymentController@add')->name('admin.payment.add');
+      //执行添加
+      Route::post('payment/store','Admin\PaymentController@store')->name('admin.payment.store');
+
+      //添加页面
+      Route::get('payment/edit/{id}','Admin\PaymentController@edit')->name('admin.payment.edit');
+      //执行添加
+      Route::post('payment/save','Admin\PaymentController@doEdit')->name('admin.payment.save');
+
+      Route::get('payment/del/{id}','Admin\PaymentController@del')->name('admin.payment.del');
+
+
+      //配送方式列表
+      Route::get('shipping/list','Admin\ShippingController@list')->name('admin.shipping.list');
+      Route::get('shipping/add','Admin\ShippingController@add')->name('admin.shipping.add');
+       //执行添加
+      Route::post('shipping/store','Admin\ShippingController@store')->name('admin.shipping.store');
+       Route::get('shipping/del/{id}','Admin\ShippingController@del')->name('admin.shipping.del');
+      /*#############################[系统管理]#############################*/
+
+      /*#############################[会员管理]#############################*/
+      //列表
+      Route::get('member/list','Admin\MemberController@list')->name('admin.member.list');
+      //详情
+      Route::get('member/detail/{id}','Admin\MemberController@detail')->name('admin.member.detail');
+      /*#############################[会员管理]#############################*/
 });
 
