@@ -9,6 +9,7 @@
         <h2><i class="fa fa-home"></i> 商品列表 <span>Subtitle goes here...</span></h2>
         <div class="breadcrumb-wrapper">
             <a class="btn btn-sm btn-danger" href="/admin/goods/add">+ 添加新商品</a>
+             <a class="btn btn-sm btn-success" href="/admin/goods/export">商品导出</a>
         </div>
     </div>
 @endsection

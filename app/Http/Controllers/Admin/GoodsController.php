@@ -335,4 +335,31 @@ class GoodsController extends Controller
 
         return redirect('/admin/goods/list');
     }
+
+    //商品导出的功能
+    public function export()
+    {
+
+        $goods = new Goods();
+
+        $data = $this->getDataList($goods);
+        //导出的数据
+        $exportData = [];
+        $head = ['id','cate_id','goods_name','goods_sn'];//excel的head头
+
+        $exportData[] = ['ID','分类id','商品名称','商品货号'];
+
+        //组装打印的数据
+        foreach ($data as $key => $value) {
+
+            $tmpArr = [];
+            foreach ($head as $column) {
+                $tmpArr[] = $value[$column];
+            }
+            $exportData[] = $tmpArr;
+        }
+
+        ToolsExcel::exportData($exportData);
+
+    }
 }

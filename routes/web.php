@@ -274,6 +274,9 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      Route::get('goods/import','Admin\GoodsController@import')->name('admin.goods.import');
      Route::post('goods/doImport','Admin\GoodsController@doImport')->name('admin.goods.doImport');
 
+     //商品导出
+     Route::any('goods/export','Admin\GoodsController@export')->name('admin.goods.export');
+
      //商品相册的数据
      Route::post('goods/gallery/list/{goods_id}','Admin\GoodsGalleryController@getGallery')->name('admin.goods.gallery.list');
 
@@ -325,6 +328,16 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
        //执行添加
       Route::post('shipping/store','Admin\ShippingController@store')->name('admin.shipping.store');
        Route::get('shipping/del/{id}','Admin\ShippingController@del')->name('admin.shipping.del');
+
+       //活动列表
+       Route::get('activity/list','Admin\ActivityController@list')->name('admin.activity.list');
+       Route::get('activity/add','Admin\ActivityController@add')->name('admin.activity.add');
+       Route::post('activity/store','Admin\ActivityController@store')->name('admin.activity.store');
+       Route::get('activity/edit/{id}','Admin\ActivityController@edit')->name('admin.activity.edit');
+       Route::post('activity/save','Admin\ActivityController@save')->name('admin.activity.save');
+
+       Route::get('activity/del/{id}','Admin\ActivityController@del')->name('admin.activity.del');
+
       /*#############################[系统管理]#############################*/
 
       /*#############################[会员管理]#############################*/
