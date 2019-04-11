@@ -158,7 +158,7 @@ class ToolsAdmin
 	//生成货号
 	public static function buildGoodsSn($string = 16)
 	{
-		return "JY".date("YmdHis",time());
+		return "JY".date("YmdH",time()).rand(1,1000);
 	}
 	
 }

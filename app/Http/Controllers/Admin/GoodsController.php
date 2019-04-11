@@ -11,6 +11,7 @@ use App\Model\Goods;
 use App\Model\GoodsGallery;
 use App\Tools\ToolsAdmin;
 use Illuminate\Support\Facades\DB;
+use App\Tools\ToolsExcel;
 
 class GoodsController extends Controller
 {
@@ -269,5 +270,69 @@ class GoodsController extends Controller
     	}
 
     	return json_encode($return);
+    }
+
+    //商品批量导入的功能
+    public function import()
+    {
+        $cellData[] = ['id','goods_name'];
+
+        $goods = new Goods();
+
+        $data = $this->getDataList($goods);
+
+        foreach ($data as $key => $value) {
+            $cellData[] = [
+                $value['id'],$value['goods_name']
+            ];
+        }
+
+        //dd($cellData);
+
+        \Excel::create('Excel导出数据',function($excel) use ($cellData){
+            $excel->sheet('数据', function($sheet) use ($cellData){
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
+        
+        dd('success');
+        return view('admin.goods.import');
+    }
+
+    //执行导入的操作
+    public function doImport(Request $request)
+    {
+        $params = $request->all();
+
+        $files = $params['file_name'];
+
+        //判断文件的后缀名
+        if($files->extension() !="xls" && $files->extension()!="xlsx"){
+            return redirect()->back()->with('msg','文件格式不正确，请上传xls，xlsx后缀名文件');
+        }
+
+        $data = ToolsExcel::import($files);
+
+        //dd($data);
+
+        $goods = new Goods();
+
+        $goodsData = [];
+
+        foreach ($data[0] as $key => $value) {
+            $value['goods_sn'] = ToolsAdmin::buildGoodsSn();
+
+            $goodsData[$key] = $value;
+        }
+
+        //dd($goodsData);
+
+        $res = $this->storeDataMany($goods, $goodsData);
+
+        if(!$res){
+            return redirect()->back()->with('msg','导入失败');
+        }
+
+        return redirect('/admin/goods/list');
     }
 }

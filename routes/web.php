@@ -270,6 +270,10 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
      // 商品删除
      Route::get('goods/del/{id}','Admin\GoodsController@del')->name('admin.goods.del');
 
+     //商品导入的页面
+     Route::get('goods/import','Admin\GoodsController@import')->name('admin.goods.import');
+     Route::post('goods/doImport','Admin\GoodsController@doImport')->name('admin.goods.doImport');
+
      //商品相册的数据
      Route::post('goods/gallery/list/{goods_id}','Admin\GoodsGalleryController@getGallery')->name('admin.goods.gallery.list');
 
