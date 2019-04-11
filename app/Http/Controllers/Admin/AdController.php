@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\AdPosition;
 use App\Model\Ad;
 use App\Tools\ToolsAdmin;
+use App\Tools\ToolsOss;
 
 class AdController extends Controller
 {
@@ -24,6 +25,15 @@ class AdController extends Controller
     public function list()
     {	
     	$assign['list'] = $this->ad->getAdList();
+
+        $oss = new ToolsOss();
+
+        //处理图片对象
+        foreach ($assign['list'] as $key => $value) {
+            $value['image_url'] = $oss->getUrl($value['image_url'], true);
+
+            $assign['list'][$key] = $value;
+        }
 
     	return view('admin.ad.list',$assign);
     }

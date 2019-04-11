@@ -88,20 +88,27 @@ class ToolsAdmin
 			return "";
 		}
 
-		//文件上传的目录
-		$basePath = 'uploads/'.date("Y-m-d",time());
+		//oss文件上传
+		$oss = new ToolsOss();
 
-		//目录不存在
-		if(!file_exists($basePath)){
-			@mkdir($basePath, 755, true);
-		}
+		$url =  $oss->putFile($files);
 
-		//文件名字
-		$filename = "/".date("YmdHis",time()).rand(0,10000).".".$files->extension();
+		return $url;
 
-		@move_uploaded_file($files->path(), $basePath.$filename);//执行文件的上传
+		// //文件上传的目录
+		// $basePath = 'uploads/'.date("Y-m-d",time());
 
-		return '/'.$basePath.$filename;
+		// //目录不存在
+		// if(!file_exists($basePath)){
+		// 	@mkdir($basePath, 755, true);
+		// }
+
+		// //文件名字
+		// $filename = "/".date("YmdHis",time()).rand(0,10000).".".$files->extension();
+
+		// @move_uploaded_file($files->path(), $basePath.$filename);//执行文件的上传
+
+		// return '/'.$basePath.$filename;
 	}
 
 	/**
