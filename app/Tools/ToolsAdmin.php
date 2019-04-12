@@ -81,34 +81,36 @@ class ToolsAdmin
 	 * @param $files $object
 	 * @return string url
 	 */
-	public static function uploadFile($files)
+	public static function uploadFile($files,$isOss = true)
 	{
 		//参数为空
 		if(empty($files)){
 			return "";
 		}
 
-		//oss文件上传
-		$oss = new ToolsOss();
+		if($isOss){
+			//oss文件上传
+			$oss = new ToolsOss();
 
-		$url =  $oss->putFile($files);
+			$url =  $oss->putFile($files);
 
-		return $url;
+			return $url;
+		}
+		
+		//文件上传的目录
+		$basePath = 'uploads/'.date("Y-m-d",time());
 
-		// //文件上传的目录
-		// $basePath = 'uploads/'.date("Y-m-d",time());
+		//目录不存在
+		if(!file_exists($basePath)){
+			@mkdir($basePath, 755, true);
+		}
 
-		// //目录不存在
-		// if(!file_exists($basePath)){
-		// 	@mkdir($basePath, 755, true);
-		// }
+		//文件名字
+		$filename = "/".date("YmdHis",time()).rand(0,10000).".".$files->extension();
 
-		// //文件名字
-		// $filename = "/".date("YmdHis",time()).rand(0,10000).".".$files->extension();
+		@move_uploaded_file($files->path(), $basePath.$filename);//执行文件的上传
 
-		// @move_uploaded_file($files->path(), $basePath.$filename);//执行文件的上传
-
-		// return '/'.$basePath.$filename;
+		return '/'.$basePath.$filename;
 	}
 
 	/**

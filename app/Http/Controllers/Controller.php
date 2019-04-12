@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     const 
-        PAGE_SIZE = 1,
+        PAGE_SIZE = 10,
         END       = TRUE;
 
     //删除_token下划线token值

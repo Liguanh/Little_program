@@ -4,10 +4,10 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Goods extends Model
+class Batch extends Model
 {
     //
-    protected $table = "jy_goods";
+    protected $table="jy_batch";
 
     public $timestamps = true;
 }

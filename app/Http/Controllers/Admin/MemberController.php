@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Model\Member;
+use App\Model\UserBonus;
 
 class MemberController extends Controller
 {
@@ -22,8 +23,10 @@ class MemberController extends Controller
     public function detail($id)
     {
     	$member = new Member();
+        $userBonus = new UserBonus();
 
     	$assign['info'] = $member->getInfo($id);
+        $assign['bonus_list']  =  $userBonus->getRecordByUid($id);
     	return view('admin.member.detail', $assign);
     }
 }

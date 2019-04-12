@@ -338,6 +338,15 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
 
        Route::get('activity/del/{id}','Admin\ActivityController@del')->name('admin.activity.del');
 
+
+       //地区管理
+       Route::get('region/list/{fid?}','Admin\RegionController@list')->name('admin.region.list');
+
+       Route::get("region/add", 'Admin\RegionController@add')->name('admin.region.add');
+       Route::post("region/store", 'Admin\RegionController@store')->name('admin.region.store');
+
+       Route::get('region/del/{id}','Admin\RegionController@del')->name('admin.region.del');
+
       /*#############################[系统管理]#############################*/
 
       /*#############################[会员管理]#############################*/
@@ -346,5 +355,28 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
       //详情
       Route::get('member/detail/{id}','Admin\MemberController@detail')->name('admin.member.detail');
       /*#############################[会员管理]#############################*/
+
+
+      /*#############################[红包管理]#############################*/
+      //红包列表
+      Route::get('bonus/list','Admin\BonusController@list')->name('admin.bonus.list');
+      Route::get('bonus/add','Admin\BonusController@addBonus')->name('admin.bonus.add');
+      Route::post('bonus/store','Admin\BonusController@doAddBonus')->name('admin.bonus.store');
+      //发送红包
+      Route::get('bonus/send/{bonus_id}','Admin\BonusController@sendBonus')->name('admin.bonus.send');
+      Route::post('bonus/doSend','Admin\BonusController@doSendBonus')->name('admin.bonus.doSend');
+
+      Route::get('user/bonus/list','Admin\BonusController@userBonusList')->name('admin.user.bonus.list');
+      /*#############################[红包管理]#############################*/
+
+      /*#############################[批次管理]#############################*/
+      //列表
+      Route::get('batch/list','Admin\BatchController@list')->name('admin.batch.list');
+      Route::get('batch/add','Admin\BatchController@add')->name('admin.batch.add');
+      Route::post('batch/store','Admin\BatchController@store')->name('admin.batch.store');
+      //执行批次
+      Route::get('batch/do/{id}','Admin\BatchController@doBatch')->name('admin.batch.do');
+
+      /*#############################[批次管理]#############################*/
 });
 

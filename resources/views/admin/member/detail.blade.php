@@ -107,13 +107,17 @@
                     </tr>
                     </thead>
                     <tbody>
+                  @if(!empty($bonus_list))
+                   @foreach($bonus_list as $bonus)
                     <tr>
-                        <td>121321321</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
-                        <td>##</td>
+                        <td>{{$bonus['bonus_name']}}</td>
+                        <td>{{$bonus['money']}}</td>
+                        <td>{{$bonus['start_time']}}</td>
+                        <td>{{$bonus['end_time']}}</td>
+                        <td>{{$bonus['min_money']}}</td>
                     </tr>
+                    @endforeach
+                  @endif
                     </tbody>
                 </table>
             </div><!-- table-responsive -->
