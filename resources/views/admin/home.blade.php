@@ -4,7 +4,7 @@
 
 @section('pageHeader')
 <div class="pageheader">
-      <h2><i class="fa fa-home"></i> 后台首页 <span>Subtitle goes here...</span></h2>
+      <h2><i class="fa fa-home"></i> 后台首页1 <span>Subtitle goes here...</span></h2>
       <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
