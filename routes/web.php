@@ -378,5 +378,21 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
       Route::get('batch/do/{id}','Admin\BatchController@doBatch')->name('admin.batch.do');
 
       /*#############################[批次管理]#############################*/
+
+       /*#############################[订单管理]#############################*/
+
+       //订单列表页面
+       Route::get('order/list', 'Admin\OrderController@list')->name('admin.order.list');
+
+       //订单详情页面
+       Route::get('order/detail/{id}','Admin\OrderController@detail')->name('admin.order.detail');
+       //导出
+       Route::get('order/export','Admin\OrderController@export')->name('admin.order.export');
+
+       //导入的功能
+       Route::get('order/import','Admin\OrderController@import')->name('admin.order.import');
+       Route::post('order/doImport','Admin\OrderController@doImport')->name('admin.order.doImport');
+
+       /*#############################[订单管理]#############################*/
 });
 
