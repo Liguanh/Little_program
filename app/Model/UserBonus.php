@@ -39,4 +39,22 @@ class UserBonus extends Model
 
     	return $record;
     }
+
+    //执行红包发送的操作
+    public function sendBonusMany($userIds, $bonusId, $expires=7)
+    {
+        $bonusInfo = [];
+
+        foreach ($userIds as $key => $value) {
+            $bonusInfo[] = [
+                'user_id' =>$value,
+                'bonus_id' => $bonusId,
+                'start_time' => date("Y-m-d H:i:s"),
+                'end_time'   => date("Y-m-d H:i:s", strtotime('+ '.$expires.' days')),
+            ];
+        }
+
+
+        return self::insert($bonusInfo);
+    }
 }

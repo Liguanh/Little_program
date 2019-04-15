@@ -52,6 +52,7 @@
                  @endif
                     </tbody>
                 </table>
+                {{$user_bonus->links()}}
             </div><!-- table-responsive -->
         </div>
     </div>
