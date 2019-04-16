@@ -275,27 +275,7 @@ class GoodsController extends Controller
     //商品批量导入的功能
     public function import()
     {
-        $cellData[] = ['id','goods_name'];
-
-        $goods = new Goods();
-
-        $data = $this->getDataList($goods);
-
-        foreach ($data as $key => $value) {
-            $cellData[] = [
-                $value['id'],$value['goods_name']
-            ];
-        }
-
-        //dd($cellData);
-
-        \Excel::create('Excel导出数据',function($excel) use ($cellData){
-            $excel->sheet('数据', function($sheet) use ($cellData){
-                $sheet->rows($cellData);
-            });
-        })->export('xls');
-        
-        dd('success');
+       
         return view('admin.goods.import');
     }
 
@@ -319,7 +299,9 @@ class GoodsController extends Controller
 
         $goodsData = [];
 
-        foreach ($data[0] as $key => $value) {
+        //dd($data);
+
+        foreach ($data as $key => $value) {
             $value['goods_sn'] = ToolsAdmin::buildGoodsSn();
 
             $goodsData[$key] = $value;

@@ -8,6 +8,7 @@ class Member extends Model
 {
     //会员表
     protected $table = "jy_user";
+    public $timestamps = true;
 
     //获取详情
     public function getInfo($id)
