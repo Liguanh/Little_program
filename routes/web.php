@@ -40,6 +40,11 @@ Route::get('admin/login','Admin\LoginController@index');
 Route::post('admin/doLogin','Admin\LoginController@doLogin');
 //用户退出
 Route::get('admin/logout','Admin\LoginController@logout');
+//忘记密码的页面
+Route::get('admin/forget/password','Admin\LoginController@forget');
+Route::post('admin/forget/sendEmail','Admin\LoginController@sendEmail');
+
+Route::get('admin/forget/reset','Admin\LoginController@reset');
 
 Route::get('403',function(){
     return view('403');
@@ -83,6 +88,11 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
     Route::get('/user/edit/{id}','Admin\AdminUsersController@edit')->name('admin.user.edit');
     //用户执行编辑页面
     Route::post('/user/doEdit','Admin\AdminUsersController@doEdit')->name('admin.user.doEdit');
+
+    //修改密码的页面
+    Route::get('/user/password','Admin\AdminUsersController@password')->name('admin.user.password');
+    //保存修改密码
+    Route::post('/user/password/save','Admin\AdminUsersController@updatePwd')->name('admin.user.password.save');
 
      /*#############################[用户相关]#############################*/
 

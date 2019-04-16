@@ -52,7 +52,7 @@
                 
                     <input type="text" class="form-control uname" placeholder="用户名" name="username"/>
                     <input type="password" class="form-control pword" placeholder="密码" name="password"/>
-                    <a href=""><small>忘记密码?</small></a>
+                    <a href="/admin/forget/password"><small>忘记密码?</small></a>
 
                     <div v-if="error_show" style="color:#ff0000;">{error_msg}</div>
                     <button class="btn btn-success btn-block" v-on:click="login">立即登录</button>

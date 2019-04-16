@@ -127,8 +127,8 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> 账户设置</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i> 修改密码</a></li>
+                <li><a href="/admin/user/edit/{{$user_id}}"><i class="glyphicon glyphicon-cog"></i> 账户设置</a></li>
+                <li><a href="/admin/user/password"><i class="glyphicon glyphicon-question-sign"></i> 修改密码</a></li>
                 <li><a href="/admin/logout"><i class="glyphicon glyphicon-log-out"></i> 退出登录</a></li>
               </ul>
             </div>
