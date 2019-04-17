@@ -65,6 +65,14 @@ class Controller extends BaseController
     	return $info;
     }
 
+    //通过where条件查询记录
+    public function getDataInfoByWhere($object, $where=[])
+    {
+        $info = $object->where($where)->first();
+
+        return $info;
+    }
+
     //没有分页的数据列表
     public function getDataList($object, $where = [])
     {

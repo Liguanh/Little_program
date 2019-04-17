@@ -44,7 +44,9 @@ Route::get('admin/logout','Admin\LoginController@logout');
 Route::get('admin/forget/password','Admin\LoginController@forget');
 Route::post('admin/forget/sendEmail','Admin\LoginController@sendEmail');
 
+//重新设置密码
 Route::get('admin/forget/reset','Admin\LoginController@reset');
+Route::post('admin/reset/password/save','Admin\LoginController@save');
 
 Route::get('403',function(){
     return view('403');

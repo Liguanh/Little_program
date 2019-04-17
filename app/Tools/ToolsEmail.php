@@ -15,7 +15,7 @@ class ToolsEmail
 	public static function sendEmail($emailData)
 	{
 		//发送纯文本
-        $res = Mail::raw($emailData['content'], function ($message) {
+        $res = Mail::raw($emailData['content'], function ($message) use($emailData) {
             $to = $emailData['email_address'];
             $message ->to($to)->subject($emailData['subject']);
         });
@@ -27,10 +27,12 @@ class ToolsEmail
 	public static function sendHtmlEmail($viewData, $emailData)
 	{
 
-		$res = Mail::send($viewData['url'],$viewData['assign'],function($message){ 
+		$res = Mail::send($viewData['url'],$viewData['assign'],function($message) use($emailData){ 
              $to = $emailData['email_address'];
             $message ->to($to)->subject($emailData['subject']);
         }); 
+
+        return $res;
 	}
 
 	//设置激活码
