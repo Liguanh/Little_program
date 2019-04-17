@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Tools\ToolsEmail;
 
 class SendEmail extends Command
 {
@@ -18,7 +19,7 @@ class SendEmail extends Command
      *
      * @var string
      */
-    protected $description = '发送邮件';
+    protected $description = '发送邮件1';
 
     /**
      * Create a new command instance.
@@ -38,5 +39,13 @@ class SendEmail extends Command
     public function handle()
     {
         //
+
+        $emailData = [
+            'subject' => '测试发邮件',
+            'content' => "测试laravel的任务调度控制台",
+            'email_address' => '872947247@qq.com'
+        ];
+
+        ToolsEmail::sendEmail($emailData);
     }
 }
