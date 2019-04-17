@@ -40,12 +40,23 @@ class SendEmail extends Command
     {
         //
 
+        $m_nums = \DB::table('jy_user')->count();
+        $order_nums = \DB::table('jy_order')->count();
+        $goods_nums =\DB::table('jy_goods')->count();
+
+        $viewData = [
+            'url' => 'email.data',
+            'assign' => [
+                'm_nums' => $m_nums,
+                'order_nums' => $order_nums,
+                'goods_nums' => $goods_nums,
+            ],
+        ];
         $emailData = [
-            'subject' => '测试发邮件',
-            'content' => "测试laravel的任务调度控制台",
+            'subject' => date("Y-m-d").'_数据统计邮件',
             'email_address' => '872947247@qq.com'
         ];
 
-        ToolsEmail::sendEmail($emailData);
+        ToolsEmail::sendHtmlEmail($viewData,$emailData);
     }
 }
