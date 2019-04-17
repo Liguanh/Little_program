@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         //给用户发送数据统计邮件
-        $schedule->command('send_email')->cron('58 15 * * *');
+        $schedule->command('send_email')->cron('03 16 * * *');
 
         //自动上架商品计划任务  每分钟执行一次
         $schedule->command('auto_shop')->cron('*/1 * * * *');

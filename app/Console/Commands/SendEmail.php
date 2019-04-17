@@ -57,6 +57,11 @@ class SendEmail extends Command
             'email_address' => '872947247@qq.com'
         ];
 
-        ToolsEmail::sendHtmlEmail($viewData,$emailData);
+        try{
+            ToolsEmail::sendHtmlEmail($viewData,$emailData);
+        }catch(\Exception $e){
+            \Log::error('邮件发送失败'.$e->getMessage());
+        }
+        
     }
 }
