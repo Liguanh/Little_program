@@ -65,6 +65,7 @@ Route::prefix('shop')->group(function(){
 	Route::post('home/ad', 'ShopApi\HomeController@ad');
 
 	//商品类型接口
+	Route::post('home/goods', 'ShopApi\HomeController@goodsList');
 
 	//品牌列表接口
 
