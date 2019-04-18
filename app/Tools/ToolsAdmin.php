@@ -13,11 +13,13 @@ class ToolsAdmin
 	 * @param $array $data
 	 * @param $fid 父类id
 	 */
-	public static function buildTree($data, $fid=0)
+	public static function buildTree($data, $fid=0, $fKey="fid")
 	{
 		if(empty($data)){
 			return [];
 		}
+
+		//echo $fKey;exit;
 
 		//dd($data);
 
@@ -25,9 +27,9 @@ class ToolsAdmin
 
 		foreach ($data as $key => $value) {
 
-			//dd($value);
-			
-			if($value['fid'] == $fid){//当前循环的内容中fid是否等于函数fid参数
+			//dd($value[$fKey],$fid);
+			//dd($value['f_id']);
+			if($value[$fKey] == $fid){//当前循环的内容中fid是否等于函数fid参数
 
 				if(!isset($menus[$fid])){//如果数据没有fid的key
 
@@ -40,7 +42,7 @@ class ToolsAdmin
 				//删除已经添加过得数据
 				unset($data[$key]);
 
-				self::buildTree($data,$value['id']);//执行递归调用
+				self::buildTree($data,$value['id'],$fKey);//执行递归调用
 
 			}
 		}

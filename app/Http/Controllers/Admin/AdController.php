@@ -57,11 +57,6 @@ class AdController extends Controller
 
         $files = $params['image_url'];
 
-        Excel::load($files->path(), function($reader) {
-            $data = $reader->all()->toArray();
-            dd($data);
-        });
-
 
     	$params['image_url'] = ToolsAdmin::uploadFile($params['image_url']);
 

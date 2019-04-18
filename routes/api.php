@@ -53,3 +53,24 @@ Route::post('comment/add','Api\CommentController@add');
 Route::post('comment/list/{novelId}','Api\CommentController@list');
 //删除接口
 Route::post('comment/del/{id}','Api\CommentController@del');
+
+
+/*********************###########[电商类的接口]######################**********************/
+
+Route::prefix('shop')->group(function(){
+	//商品分类的接口
+	Route::post('home/category', 'ShopApi\HomeController@category');
+	
+	//首页banner图，广告位的接口
+	Route::post('home/ad', 'ShopApi\HomeController@ad');
+
+	//商品类型接口
+
+	//品牌列表接口
+
+	//最新文章接口
+
+});
+
+
+/*********************###########[电商类的接口]######################**********************/

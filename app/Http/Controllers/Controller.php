@@ -97,4 +97,16 @@ class Controller extends BaseController
     	return $object->where($key,$id)->delete();
     }
 
+    /**
+     * @desc 接口返回json的格式数据
+     * @param array $data
+     */
+    public function returnJson($data = [])
+    {
+        if(!headers_sent()){
+            header(sprintf('%s:%s','Content-Type','application/json'));
+        }
+        exit(json_encode($data));
+    }
+
 }
