@@ -57,7 +57,7 @@ Route::post('comment/del/{id}','Api\CommentController@del');
 
 /*********************###########[电商类的接口]######################**********************/
 
-Route::prefix('shop')->group(function(){
+Route::middleware(['api_auth'])->group(function(){
 	//商品分类的接口
 	Route::post('home/category', 'ShopApi\HomeController@category');
 	
@@ -68,9 +68,15 @@ Route::prefix('shop')->group(function(){
 	Route::post('home/goods', 'ShopApi\HomeController@goodsList');
 
 	//品牌列表接口
-
+	Route::post('home/brands', 'ShopApi\HomeController@brand');
 	//最新文章接口
+	Route::post('home/newsArticle', 'ShopApi\HomeController@newsArticle');
 
+	//发送短信验证码
+	Route::post('login/sendSms','ShopApi\LoginController@sendSms');
+
+	//用户注册的功能
+	Route::post('register','ShopApi\LoginController@register');
 });
 
 

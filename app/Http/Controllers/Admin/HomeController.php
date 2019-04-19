@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use AlibabaCloud\Client\AlibabaCloud;
+use AlibabaCloud\Client\Exception\ClientException;
+use AlibabaCloud\Client\Exception\ServerException;
+
 
 class HomeController extends Controller
 {
     //后台首页
     public function home()
     {
+    	
         //redis的缓存数据
     	$admin_data_key = "admin_home_data";
     	$redis = new \Redis();

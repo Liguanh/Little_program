@@ -21,6 +21,9 @@ class CreateJyUserInfoTable extends Migration
             $table->string('link_name',50)->default('')->comment('紧急联系人');
             $table->char('link_phone',11)->default('')->comment('紧急联系人手机号');
             $table->char('invite_code',6)->default('')->comment('用户的邀请码');
+
+
+            $table->engine = "InnoDB";
         });
     }
 

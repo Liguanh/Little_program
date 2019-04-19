@@ -81,6 +81,14 @@ class Controller extends BaseController
         return $list;
     }
 
+    //获取限制输出的条数
+    public function getLimitDataList($object, $limit=5, $where=[])
+    {
+        $list = $object->where($where)->limit($limit)->get()->toArray();
+
+        return $list;
+    }
+
     //获取带有分页的数据列表
     public function getPageList($object, $where=[])
     {

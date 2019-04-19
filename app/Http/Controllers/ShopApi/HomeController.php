@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Model\Category;
 use App\Tools\ToolsAdmin;
 use App\Tools\ToolsOss;
+use App\Model\Brand;
+use App\Model\Article;
 
 class HomeController extends Controller
 {
@@ -78,6 +80,7 @@ class HomeController extends Controller
     	//获取商品类型
     	$type = $request->input('type',1);
 
+    	//商品的数量
     	$nums = $request->input('nums',5);
 
     	if($type == 1){//热卖商品
@@ -124,18 +127,41 @@ class HomeController extends Controller
    	    ];
 
     	$this->returnJson($return);
-
     }
 
     //品牌列表
     public function brand(Request $request)
     {
+    	$nums = $request->input('nums',9);
 
+    	$object = new Brand();
+    	$brand = $this->getLimitDataList($object, $nums, ['status'=>1]);
+
+    	$return = [
+   	    	'code' => 2000,
+   	    	'msg'  => "成功",
+   	    	'data' => $brand
+   	    ];
+
+    	$this->returnJson($return);
     }
 
     //最新文章
     public function newsArticle(Request $request)
     {
+    	$nums = $request->input('nums',5);
+
+    	$article = new Article();
+
+    	$news = $article->getNewArticles($nums, ['status'=>3]);
+
+    	$return = [
+   	    	'code' => 2000,
+   	    	'msg'  => "成功",
+   	    	'data' => $news
+   	    ];
+
+    	$this->returnJson($return);
 
     }
 }

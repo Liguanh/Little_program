@@ -27,6 +27,8 @@ class CreateJyUserTable extends Migration
             $table->unique('phone');
 
             $table->index('status');
+
+            $table->engine = "InnoDB";
         });
     }
 
