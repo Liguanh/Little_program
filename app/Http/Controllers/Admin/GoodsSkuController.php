@@ -52,7 +52,7 @@ class GoodsSkuController extends Controller
     {
     	$params = $request->all();
 
-        //dd($params);
+        // dd($params);
 
         $params = $this->delToken($params);
 
@@ -79,7 +79,11 @@ class GoodsSkuController extends Controller
                 $sku1_arr[$k] = $v;
             }
 
-            $this->storeDataMany($goodsSku, $sku1_arr);
+            // dd($sku1_arr);
+
+            $goodsSku1 = new GoodsSku();
+
+            $this->storeDataMany($goodsSku1, $sku1_arr);
 
             DB::commit();
         }catch(\Exception $e){

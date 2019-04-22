@@ -77,6 +77,17 @@ Route::middleware(['api_auth'])->group(function(){
 
 	//用户注册的功能
 	Route::post('register','ShopApi\LoginController@register');
+	//用户登录的功能
+	Route::post('login','ShopApi\LoginController@login');
+	Route::post('logout','ShopApi\LoginController@logout');
+
+	//用户登录的功能
+	Route::post('token','ShopApi\LoginController@token');
+
+	//商品详情接口
+	Route::post('goods/detail/{id}','ShopApi\GoodsController@detail');
+
+
 });
 
 

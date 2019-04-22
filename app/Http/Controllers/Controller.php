@@ -117,4 +117,35 @@ class Controller extends BaseController
         exit(json_encode($data));
     }
 
+    //校验token是否过期的方式
+    public function checkToken($token)
+    {
+            //实例化redis
+            $redis = new \Redis();
+            //链接redis
+            $redis->connect(env("REDIS_HOST"), env("REDIS_PORT"));
+
+            $data = $redis->get($token);
+
+            if(!empty($data)){
+                //查询出用户的信息
+                $user = \DB::table('jy_user')->where(['phone'=>$data])->first();
+
+                $return = [
+                    'status' => true,
+                    'data'   => [
+                        'id'  => $user->id,
+                        'phone' => $user->phone,
+                        'username' => $user->username
+                    ],
+                ];
+            }else{
+                $return = [
+                    'status' => false
+                ];
+            }
+
+            return $return;
+    }
+
 }

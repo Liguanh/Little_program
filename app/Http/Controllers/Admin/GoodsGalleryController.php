@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\GoodsGallery;
+use App\Tools\ToolsOss;
 
 class GoodsGalleryController extends Controller
 {
@@ -23,6 +24,11 @@ class GoodsGalleryController extends Controller
     	];
 
     	$list = $this->getDataList($gallery, $where);
+
+        $oss = new ToolsOss();
+        foreach ($list as $key => $value) {
+            $list[$key]['image_url'] = $oss->getUrl($value['image_url'], true);
+        }
 
     	$return['data'] = $list;
 
