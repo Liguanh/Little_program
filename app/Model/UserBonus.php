@@ -29,7 +29,7 @@ class UserBonus extends Model
     //通过用户uid获取记录列表
     public function getRecordByUid($userId, $where=[])
     {
-    	$record = self::select('bonus_name','money','min_money','start_time','end_time')
+    	$record = self::select('bonus_name','money','min_money','start_time','end_time','jy_user_bonus.status')
     				->leftJoin('jy_bonus', 'jy_bonus.id','=','jy_user_bonus.bonus_id')
     				->where('user_id', $userId)
     				->where($where)

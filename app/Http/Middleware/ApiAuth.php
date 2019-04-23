@@ -16,7 +16,7 @@ class ApiAuth
     public function handle($request, Closure $next)
     {
         //ajax跨域问题解决,header
-        header("Access-Control-Allow-Origin:*");
+        header("Access-Control-Allow-Origin:http://www.360buy.com");
 
         //dd($request->all());
         return $next($request);

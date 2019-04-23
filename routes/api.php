@@ -87,6 +87,22 @@ Route::middleware(['api_auth'])->group(function(){
 	//商品详情接口
 	Route::post('goods/detail/{id}','ShopApi\GoodsController@detail');
 
+	//获取用户详情信息
+	Route::post('user/info/{id}','ShopApi\UserController@userInfo');
+
+	Route::post('user/modify','ShopApi\UserController@userModify');
+	Route::post('user/fund/{user_id}','ShopApi\UserController@userFundHistory');
+	//用户中心设置地址信息
+	Route::post('user/region/{fid}','ShopApi\UserController@getRegion');
+	Route::post('user/address/add','ShopApi\UserController@addUserAddress');
+	//获取接口列表数据
+	Route::post('user/address/list/{user_id}','ShopApi\UserController@getUserAddress');
+
+	//用户中心红包记录
+	Route::post('user/bonus/{user_id}','ShopApi\BonusController@userBonusList');
+
+
+
 
 });
 
