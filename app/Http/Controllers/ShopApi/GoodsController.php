@@ -77,4 +77,25 @@ class GoodsController extends Controller
 
     	$this->returnJson($return);
     }
+
+    //获取商品sku属性的列表信息
+    public function getGoodsAttr(Request $request)
+    {
+        $sku_ids = $request->input('sku_ids');//传过来的sku的ids
+
+        $sku_ids = explode(',', $sku_ids);
+
+        $sku = \DB::table('jy_goods_sku')->select('attr_id','sku_value')->whereIn('id',$sku_ids)->get();
+
+        $skuData = [];
+
+        foreach ($sku as $key => $value) {
+            //获取属性名
+            $attr = \DB::table('jy_goods_attr')->select('attr_name')->where('id',$value->attr_id)->first();
+            $skuData[$key]['sku_value'] = $value->sku_value;
+            $skuData[$key]['attr_name'] = $attr->attr_name;
+        }
+
+        $this->returnJson($skuData);
+    }
 }

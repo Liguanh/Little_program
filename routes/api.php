@@ -87,6 +87,8 @@ Route::middleware(['api_auth'])->group(function(){
 	//商品详情接口
 	Route::post('goods/detail/{id}','ShopApi\GoodsController@detail');
 
+	Route::any('cart/goods/attr','ShopApi\GoodsController@getGoodsAttr');
+
 	//获取用户详情信息
 	Route::post('user/info/{id}','ShopApi\UserController@userInfo');
 
