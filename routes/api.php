@@ -97,6 +97,10 @@ Route::middleware(['api_auth'])->group(function(){
 	Route::post('user/address/add','ShopApi\UserController@addUserAddress');
 	//获取接口列表数据
 	Route::post('user/address/list/{user_id}','ShopApi\UserController@getUserAddress');
+	Route::post('set/default/address','ShopApi\UserController@setDefaultAddress');
+
+	//订单相关
+	Route::post('user/order/{user_id}','ShopApi\OrderController@userOrder');
 
 	//用户中心红包记录
 	Route::post('user/bonus/{user_id}','ShopApi\BonusController@userBonusList');

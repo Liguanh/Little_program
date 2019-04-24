@@ -172,4 +172,28 @@ class UserController extends Controller
 
     	$this->returnJson($return);
     }
+
+    //设置默认地址
+    public function setDefaultAddress(Request $request)
+    {
+        $return = [
+            'code' => 2000,
+            'msg'  => "设置默认地址成功"
+        ];
+
+        $params = $request->all();
+
+        $member = Member::find($params['user_id']);
+
+        $res = $this->storeData($member, ['address_id'=>$params['id']]);
+
+        if(!$res){
+            $return = [
+                'code' => 4000,
+                'msg'  => "设置默认地址失败"
+            ];
+        }
+
+        $this->returnJson($return);
+    }
 }

@@ -50,6 +50,7 @@ class GoodsController extends Controller
 	    			'attr_name' => $value['attr_name'],
 	    			'attr_sku'  => [
 	    				[
+                        'sku_id' => $value['id'],
 	    				'sku_value' => $value['sku_value'],
 	    				'attr_price' => $value['attr_price']
 	    			 ]
@@ -57,6 +58,7 @@ class GoodsController extends Controller
     		  ];
     		}else{
     			$sku_data[$value['attr_id']]['attr_sku'][]=[
+                    'sku_id' => $value['id'],
     				'sku_value' => $value['sku_value'],
 	    			'attr_price' => $value['attr_price']
     			];
