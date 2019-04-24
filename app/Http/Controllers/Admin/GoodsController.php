@@ -131,7 +131,7 @@ class GoodsController extends Controller
     			//判断是否上传了图片
     			if(array_key_exists('image_url', $value)){
     				$value['image_url'] = ToolsAdmin::uploadFile($value['image_url']);//上传后图片地址
-    				$value['goods_id'] = $params['id'];
+    				$value['goods_id'] = $goodsId;
     				$gallery_data[$key] = $value;//组装新的数据
     			}
     		}
