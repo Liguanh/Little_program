@@ -62,14 +62,14 @@ class AlipayController extends Controller
     {
         $params = $request->all();
 
-        \Log::info('支付宝异步回调',[$params]);
+        \Log::info('支付宝异步回调',[$params->fund_bill_list]);
 
         $alipay = Pay::alipay($this->config);
 
         try{
             $data = $alipay->verify(); // 是的，验签就这么简单！
 
-            \Log::info('支付宝异步支付验签数据',[$data->all()]);
+            \Log::info('支付宝异步支付验签数据',[$data]);
 
             // 请自行对 trade_status 进行判断及其它逻辑进行判断，在支付宝的业务通知中，只有交易通知状态为 TRADE_SUCCESS 或 TRADE_FINISHED 时，支付宝才会认定为买家付款成功。
             // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号；
