@@ -44,10 +44,10 @@ class AlipayController extends Controller
 
     	$data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
 
-    	$orders = new Order();
-    	$object = $this->getDataInfo($orders,$data->out_trade_no, 'order_sn');
+    	// $orders = new Order();
+    	// $object = $this->getDataInfo($orders,$data->out_trade_no, 'order_sn');
 
-    	$this->storeData($object,['pay_status'=>2]);
+    	// $this->storeData($object,['pay_status'=>2]);
 
     	// 订单号：$data->out_trade_no
         // 支付宝交易号：$data->trade_no
