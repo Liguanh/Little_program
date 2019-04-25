@@ -62,12 +62,12 @@ class AlipayController extends Controller
     {
         $params = $request->all();
 
-        \Log::info('支付宝异步回调',[$params->fund_bill_list]);
+        \Log::info('支付宝异步回调',[$params]);
 
         $alipay = Pay::alipay($this->config);
 
         try{
-            $data = $alipay->verify(); // 是的，验签就这么简单！
+            $data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
 
             \Log::info('支付宝异步支付验签数据',[$data]);
 
