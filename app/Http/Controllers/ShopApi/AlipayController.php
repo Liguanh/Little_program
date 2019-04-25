@@ -86,9 +86,9 @@ class AlipayController extends Controller
 
             if($data->trade_status == 'TRADE_SUCCESS'){//  支付成功
                 \Log::info('支付成功');
-                $orderData['pay_status'] = '3';  
+                $orderData['pay_status'] = 3;  
             }else{
-                $orderData['pay_status'] = '4';  
+                $orderData['pay_status'] = 4;  
 
                 //回退库存
             }
