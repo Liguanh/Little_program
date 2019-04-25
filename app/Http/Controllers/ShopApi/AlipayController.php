@@ -79,13 +79,15 @@ class AlipayController extends Controller
 
             $object = $this->getDataInfo($order, $data->out_trade_no, 'order_sn');
 
-            if($data->trade_status == 'TRADE_SUCCESS' || $data->trade_status == 'TRADE_FINISHED'){//  支付成功
+            if($data->trade_status == 'TRADE_SUCCESS'){//  支付成功
+                \Log::info('支付成功');
                 $orderData['pay_status'] = 3;  
             }else{
                 $orderData['pay_status'] = 4;  
 
                 //回退库存
             }
+            \Log::info('修改订单数据',[$orderData]);
 
             $this->storeData($object, $orderData);
 
