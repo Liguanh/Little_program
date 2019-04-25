@@ -108,12 +108,16 @@ Route::middleware(['api_auth'])->group(function(){
 	Route::post('create/order','ShopApi\OrderController@createOrder');
 	
 	//订单信息
-	Route::post('shipping','ShopApi\OrderController@shipping');
+	Route::any('shipping','ShopApi\OrderController@shipping');
 	Route::post('payment','ShopApi\OrderController@payment');
 
 	//用户中心红包记录
 	Route::post('user/bonus/{user_id}','ShopApi\BonusController@userBonusList');
 
+	//支付相关的
+	Route::any('alipay','ShopApi\AlipayController@alipay');
+	Route::any('return/url','ShopApi\AlipayController@returnUrl');
+	Route::any('notify/url','ShopApi\AlipayController@notifyUrl');
 
 
 

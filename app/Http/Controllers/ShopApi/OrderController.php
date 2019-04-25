@@ -11,6 +11,7 @@ use App\Model\Region;
 use App\Model\Shipping;
 use App\Model\Payment;
 use App\Tools\ToolsAdmin;
+use App\Model\UserAddress;
 
 class OrderController extends Controller
 {
@@ -81,12 +82,10 @@ class OrderController extends Controller
         try{
             \DB::beginTransaction();//开启
 
-
-
-            
             $orderSn = ToolsAdmin::buildGoodsSn();
             //创建订单
-            $address = json_decode($params['address'],true);
+            $object = new UserAddress();
+            $address = $this->getDataInfo($object, $params['address']);
         
             $orderInfo = [
                 'user_id' => $params['user_id'],
@@ -110,6 +109,7 @@ class OrderController extends Controller
                 'bonus_price' => $params['bonus_price'],
                 'note' => $params['note'],
                 'confirm_time' => date('Y-m-d H:i:s'),
+                'pay_time' => date('Y-m-d H:i:s'),
             ];
 
             $order = new Order();
@@ -135,8 +135,6 @@ class OrderController extends Controller
             $orderGoods = new OrderGoods();
             $this->storeDataMany($orderGoods, $orderGoodsData);
 
-            $this->returnJson($orderGoods);
-
             //修改商品的库存
             foreach ($orderGoodsData as $k => $v) {
 
@@ -147,6 +145,11 @@ class OrderController extends Controller
                 ];
                 $this->storeData($goods, $data);
             }
+
+            $return['data'] = [
+                'order_sn' => $orderSn
+            ];
+
             \DB::commit();
         }catch(\Exception $e){
             \DB::rollback();
