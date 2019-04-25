@@ -39,6 +39,15 @@ class AlipayController extends Controller
     //同步回调
     public function returnUrl(Request $request)
     {
+        $orderSn = "JY2019042601262";
+
+        $orderData = [
+            'paid_price' => 100,
+            'pay_status'     => 3,
+        ];
+
+        Order::where('order_sn', $orderSn)->update($orderData);
+        exit;
     	$params = $request->all();
 
     	$data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
