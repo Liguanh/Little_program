@@ -44,6 +44,8 @@ class CreateJyOrderTable extends Migration
             $table->index('order_status');
             $table->index('shipping_status');
             $table->index('pay_status');
+
+            $table->engine="InnoDB";
         });
     }
 

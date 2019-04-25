@@ -22,6 +22,7 @@ class CreateJyOrderGoodsTable extends Migration
             $table->decimal('shop_price',10,2)->default(0.00)->comment('商品市场价');
             $table->decimal('market_price',10,2)->default(0.00)->comment('本店售价');
             $table->string('goods_attr',50)->default('')->comment('属性');
+            $table->engine="InnoDB";
         });
     }
 
