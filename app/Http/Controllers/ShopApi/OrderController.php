@@ -95,6 +95,7 @@ class OrderController extends Controller
                 'pay_status' => 1,
                 'zcode'      => rand(100000,999999),
                 'consignee'  => $address['consignee'],
+                'country'    => 1,
                 'province'  => $address['province'],
                 'city'  => $address['city'],
                 'district'  => $address['district'],
