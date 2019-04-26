@@ -43,9 +43,11 @@ class AlipayController extends Controller
 
     	$params = $request->all();
 
+        \Log::info('支付宝同步回调地址',[$params]);
+
         sleep(5);
 
-    	return redirect('http://www.360buy.com/index/goods/returnUrl'.http_build_query($params));
+    	return redirect('http://www.360buy.com/index/goods/returnUrl?'.http_build_query($params));
     }
 
     //异步回调地址
