@@ -34,6 +34,8 @@ Route::prefix('study')->group(function(){
 
 
 
+
+
 //登陆页面
 Route::get('admin/login','Admin\LoginController@index');
 //执行登陆
@@ -406,5 +408,12 @@ Route::middleware(['admin_auth','permission_auth'])->prefix('admin')->group(func
        Route::post('order/doImport','Admin\OrderController@doImport')->name('admin.order.doImport');
 
        /*#############################[订单管理]#############################*/
+
+
+
+
+       //测试路由
+       Route::get('test/add','Admin\TestController@add');
+       Route::post('test/store','Admin\TestController@store');
 });
 

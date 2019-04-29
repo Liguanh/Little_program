@@ -19,6 +19,12 @@ class AlipayController extends Controller
 		$this->config = \Config::get('alipay');//获取支付宝的配置信息
 	}
     //支付接口
+    protected $config;
+
+    public function __construct()
+    {
+        $this->config = \Config::get('alipay');//获取支付宝的配置信息
+    }
 
     public function alipay(Request $request)
     {
@@ -44,17 +50,13 @@ class AlipayController extends Controller
 
     	$data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
 
-    	// $orders = new Order();
-    	// $object = $this->getDataInfo($orders,$data->out_trade_no, 'order_sn');
 
-    	// $this->storeData($object,['pay_status'=>2]);
+  
+    	$params = $request->all();
 
-    	// 订单号：$data->out_trade_no
-        // 支付宝交易号：$data->trade_no
-        // 订单总金额：$data->total_amount
+        \Log::info('支付宝同步回调地址',[$params]);
 
-        \Log::info('同步回调信息如下',[$params, $data]);
-
+        sleep(5);
     	return redirect('http://www.360buy.com/index/goods/returnUrl?'.http_build_query($params));
     }
 
@@ -63,28 +65,38 @@ class AlipayController extends Controller
     {
         $params = $request->all();
 
-        \Log::info('支付宝异步回调',[$params]);
 
-        $alipay = Pay::alipay($this->config);
+        \Log::info('支付宝异步回调返回的参数',[$params]);
+
+         $alipay = Pay::alipay($this->config);
 
         try{
-            $data = Pay::alipay($this->config)->verify(); // 是的，验签就这么简单！
+            $data = $alipay->verify(); // 是的，验签就这么简单！
 
-            \Log::info('支付宝异步支付验签数据',[$data]);
+            \Log::info('支付宝异步回调验签数据:',[$data]);
 
+            //要修改的订单的数据
             $orderData = [
-                    'paid_price' => $data->receipt_amount,
-                ];
+            'paid_price' => $data->buyer_pay_amount
+            ];
 
-            if($data->trade_status == 'TRADE_SUCCESS'){//  支付成功
-                \Log::info('支付成功');
-                $orderData['pay_status'] = 3;  
+            //支付成功状态
+            if($data->trade_status == "TRADE_SUCCESS" || $data->trade_status="TRADE_FINISHED"){
+
+                if($data->buyer_pay_amount != $data->total_amount){
+                    $orderData['pay_status'] = 5;
+                    \Log::info('修改订单的信息,部分支付成功：',[$orderData]);
+                }
+                $orderData['pay_status'] = 3;
+                \Log::info('修改订单的信息,支付成功：',[$orderData]);
             }else{
-                $orderData['pay_status'] = 4;  
+                $orderData['pay_status'] = 4;
+                \Log::info('修改订单的信息,支付失败：',[$orderData]);
 
-                //回退库存
+                //库存还原
             }
-            \Log::info('修改订单数据',[$orderData]);
+
+            //更新订单
 
             Order::where('order_sn', $data->out_trade_no)->update($orderData);
 
@@ -95,11 +107,19 @@ class AlipayController extends Controller
             // 4、验证app_id是否为该商户本身。
             // 5、其它业务逻辑情况
 
+<<<<<<< HEAD
             //Log::debug('支付宝异步回调数据', $data->all());
+=======
+            Log::info('Alipay notify', $data->all());
+>>>>>>> shop
         } catch (\Exception $e) {
              //$e->getMessage();
         }
 
         return $alipay->success();// laravel 框架中请直接 `return $alipay->success()
+<<<<<<< HEAD
+=======
+        
+>>>>>>> shop
     }
 }
