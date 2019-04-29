@@ -159,6 +159,9 @@ class LoginController extends Controller
     		];
     	}
 
+        //注册成功的事件
+        \Event::fire(new \App\Events\RegisterSuccess(['user_id'=>$userId,'bonus_id'=>1]));
+
     	$this->returnJson($return);
     }
 
