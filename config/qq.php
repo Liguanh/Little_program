@@ -7,4 +7,7 @@ return [
 	//获取access_token的url地址
 	'token_url' => 'https://graph.qq.com/oauth2.0/token?grant_type=authorization_code&client_id=%s&client_secret=%s&code=%s&redirect_uri=%s',
 
+	//获取用户openid的url地址
+	'open_url' => 'https://graph.qq.com/oauth2.0/me?access_token=%s',
+
 ];

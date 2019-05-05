@@ -8,11 +8,15 @@ use App\Http\Controllers\Controller;
 class QQController extends Controller
 {
 	protected $qq = null;
+	protected $redis = null;
 
 	public function __construct()
 	{
 		$this->qq = \Config::get('qq');
 
+		$this->redis = new \Redis();
+
+		$this->redis->connect(env('REDIS_HOST'),env('REDIS_PORT'));
 	}
 
     //QQ地址回调
@@ -31,13 +35,28 @@ class QQController extends Controller
 
     		\Log::info('QQ第三方登陆获取access_token的url地址', ['access_token_url'=>$tokenUrl]);
 
+    		//Step2: 通过code授权码来获取access_token的值
+
     		//access_token请求过来的值，进行数组处理
     		$accessTokenData = [];
     		$response = file_get_contents($tokenUrl);
 
     		parse_str($response,$accessTokenData);
 
-    		\Log::info('请求access_token返回的内容',[$accessTokenData]);
+    		\Log::info('Step2: 请求access_token返回的内容',[$accessTokenData]);
+    		//如果返回成功
+    		if(isset($accessTokenData['access_token'])){
+
+    			//Step3: 通过access_token来获取用户openID
+    			$openUrl = sprintf($this->qq['open_url'], $accessTokenData['access_token']);
+
+    			\Log::info('QQ第三方登陆获取openId的url地址',['open_id_url'=>$openUrl]);
+
+    			$response1 = file_get_contents($openUrl);
+
+    			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', $response1);
+
+    		}
 
     	}
     }
