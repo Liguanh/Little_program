@@ -75,7 +75,7 @@ class QQController extends Controller
 
     				\Log::info('Step4: QQ第三方登陆获取获取用户详情的数据信息',[$userInfo]);
 
-    				$phone = rand(10000000000,19999999999)
+    				$phone = rand(10000000000,19999999999);
     				try{
     					\DB::beginTransaction();
     					$user = [
