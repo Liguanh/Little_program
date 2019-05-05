@@ -56,6 +56,8 @@ class QQController extends Controller
 
     			$openData = $this->getOpenData($response1);
 
+    			\Log::info('QQ第三方登陆获取获取openid的数据信息',[$response1]);
+
     			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$openData]);
 
     		}
@@ -69,7 +71,11 @@ class QQController extends Controller
     	$lpos = strpos($openData, '(');
     	$rpos = strpos($openData, ')');
 
-    	$str = substr($openData, $lpos, $rpos-$lpos-1);
+    	\Log::info('位置信息',[$lpos, $rpos]);
+
+    	$str = substr($openData, $lpos+1, $rpos-$lpos-1);
+
+    	\Log::info('截取信息:',[$str]);
 
 
     	$openData = json_decode($str, true);
