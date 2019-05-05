@@ -75,24 +75,44 @@ class QQController extends Controller
 
     				\Log::info('Step4: QQ第三方登陆获取获取用户详情的数据信息',[$userInfo]);
 
-    				$user = [
-    					'open_id'  => $openData['openid'], 
-    					'phone'    => '13301191890',
-    					'username' => $userInfo['nickname'],
-    					'password' => md5('123qwe'),
-    					'image_url' => $userInfo['figureurl_qq_1'],
-    				];
+    				try{
+    					\DB::beginTransaction();
+    					$user = [
+    						'open_id'  => $openData['openid'], 
+    						'phone'    => rand(10000000000,19999999999),
+    						'username' => $userInfo['nickname'],
+    						'password' => md5('123qwe'),
+    						'image_url' => $userInfo['figureurl_qq_1'],
+    					];
 
-    				\Log::info('QQ登陆入库信息',[$user]);
+    					\Log::info('QQ登陆入库信息',[$user]);
 
-    				\DB::table('jy_user')->insert($user);
+    					$userId = \DB::table('jy_user')->insertGetId($user);
+
+    					$userInfo = [
+    						'user_id' => $userId,
+    						'email'   => '',
+    						'sex'     => $userInfo['gener'] == "男" ? 1 : 2
+    					];
+
+    					\DB::table('jy_user_info')->insert($userInfo);
+
+    					\DB::commit();
+    				}catch(\Exception $e){
+    					\DB::rollback();
+
+    					\Log::error('QQ第三方登陆用户注册失败',['msg'=>$e->getMessaget(),'code'=>$e->getCode()]);
+    				}
+    				
     			}
 
     			//授权登陆
     			//生成token的sql语句
-            	//$data = \DB::select('select replace(uuid(),"-","") as token');
-            	//$token = $data[0]->token;
+            	$data = \DB::select('select replace(uuid(),"-","") as token');
+            	$token = $data[0]->token;
+            	$this->redis->setex($token, 7200, $userInfo->phone);//把用户生成的token存入redis
 
+            	return redirect('http://www.360buy.com/index/login/third?token='.$token);
     		}
 
     	}
