@@ -54,7 +54,7 @@ class QQController extends Controller
 
     			$response1 = file_get_contents($openUrl);
 
-    			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', $response1);
+    			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$response1]);
 
     		}
 
