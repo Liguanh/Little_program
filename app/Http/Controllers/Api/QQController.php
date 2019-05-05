@@ -61,7 +61,7 @@ class QQController extends Controller
     			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$openData]);
 
     			//通过openid查询数据库中的数据
-    			$userInfo = \DB::table('jy_user')->where('open_id', $openData['oepnid'])->first();
+    			$userInfo = \DB::table('jy_user')->where('open_id', $openData['openid'])->first();
 
     			if(empty($userInfo)){//如果openid不存在数据库中
     				//Step4: 通过openid获取用户的详情信息
