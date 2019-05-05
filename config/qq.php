@@ -10,4 +10,7 @@ return [
 	//获取用户openid的url地址
 	'open_url' => 'https://graph.qq.com/oauth2.0/me?access_token=%s',
 
+	//获取用户详情的地址信息
+	'user_info_url' => 'https://graph.qq.com/user/get_user_info?access_token=%s&oauth_consumer_key=%s&openid=%s'
+
 ];

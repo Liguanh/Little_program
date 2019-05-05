@@ -56,9 +56,27 @@ class QQController extends Controller
 
     			$openData = $this->getOpenData($response1);
 
-    			\Log::info('QQ第三方登陆获取获取openid的数据信息',[$response1]);
+    			//\Log::info('QQ第三方登陆获取获取openid的数据信息',[$response1]);
 
     			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$openData]);
+
+    			//通过openid查询数据库中的数据
+    			$userInfo = \DB::table('jy_user')->where('open_id', $openData['oepnid'])->first();
+
+    			if(empty($userInfo)){//如果openid不存在数据库中
+    				//Step4: 通过openid获取用户的详情信息
+    				$userInfoUrl  = sprintf($this->qq['user_info_url'], $accessTokenData['access_token'], $this->qq['app_id'], $openData['openid']);
+
+    				\Log::info('QQ第三方登陆获取用户详情的url地址',['user_info_url'=>$userInfoUrl]);
+
+    				$userInfo = file_get_contents($userInfoUrl);
+
+    				$userInfo = json_decode($userInfo, true);
+
+    				\Log::info('Step4: QQ第三方登陆获取获取用户详情的数据信息',[$userInfo]);
+    			}
+
+    			//授权登陆
 
     		}
 
@@ -71,11 +89,11 @@ class QQController extends Controller
     	$lpos = strpos($openData, '(');
     	$rpos = strpos($openData, ')');
 
-    	\Log::info('位置信息',[$lpos, $rpos]);
+    	//\Log::info('位置信息',[$lpos, $rpos]);
 
     	$str = substr($openData, $lpos+1, $rpos-$lpos-1);
 
-    	\Log::info('截取信息:',[$str]);
+    	//\Log::info('截取信息:',[$str]);
 
 
     	$openData = json_decode($str, true);
