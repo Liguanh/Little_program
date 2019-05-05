@@ -36,9 +36,6 @@ Route::prefix('study')->group(function(){
 Route::any('qq/callback','Api\QQController@callback');
 
 
-
-
-
 //登陆页面
 Route::get('admin/login','Admin\LoginController@index');
 //执行登陆
