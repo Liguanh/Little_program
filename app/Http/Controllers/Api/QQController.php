@@ -101,7 +101,7 @@ class QQController extends Controller
     				}catch(\Exception $e){
     					\DB::rollback();
 
-    					\Log::error('QQ第三方登陆用户注册失败',['msg'=>$e->getMessaget(),'code'=>$e->getCode()]);
+    					\Log::error('QQ第三方登陆用户注册失败',['msg'=>$e->getMessage(),'code'=>$e->getCode()]);
     				}
     				
     			}
