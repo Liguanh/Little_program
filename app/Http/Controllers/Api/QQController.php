@@ -75,11 +75,12 @@ class QQController extends Controller
 
     				\Log::info('Step4: QQ第三方登陆获取获取用户详情的数据信息',[$userInfo]);
 
+    				$phone = rand(10000000000,19999999999)
     				try{
     					\DB::beginTransaction();
     					$user = [
     						'open_id'  => $openData['openid'], 
-    						'phone'    => rand(10000000000,19999999999),
+    						'phone'    => $phone,
     						'username' => $userInfo['nickname'],
     						'password' => md5('123qwe'),
     						'image_url' => $userInfo['figureurl_qq_1'],
@@ -110,7 +111,8 @@ class QQController extends Controller
     			//生成token的sql语句
             	$data = \DB::select('select replace(uuid(),"-","") as token');
             	$token = $data[0]->token;
-            	$this->redis->setex($token, 7200, $userInfo->phone);//把用户生成的token存入redis
+            	$phone1 = !empty($userInfo->phone) ? $userInfo->phone : $phone;
+            	$this->redis->setex($token, 7200, $phone1);//把用户生成的token存入redis
 
             	return redirect('http://www.360buy.com/index/login/third?token='.$token);
     		}
