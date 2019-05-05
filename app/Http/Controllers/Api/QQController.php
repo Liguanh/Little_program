@@ -74,9 +74,23 @@ class QQController extends Controller
     				$userInfo = json_decode($userInfo, true);
 
     				\Log::info('Step4: QQ第三方登陆获取获取用户详情的数据信息',[$userInfo]);
+
+    				$user = [
+    					'open_id'  => $openData['openid'], 
+    					'phone'    => '',
+    					'username' => $userInfo['nickname'],
+    					'image_url' => $userInfo['figureurl_qq_1'],
+    				];
+
+    				\Log::info('QQ登陆入库信息',[$user]);
+
+    				\DB::table('jy_user')->insert($user);
     			}
 
     			//授权登陆
+    			//生成token的sql语句
+            	//$data = \DB::select('select replace(uuid(),"-","") as token');
+            	//$token = $data[0]->token;
 
     		}
 
