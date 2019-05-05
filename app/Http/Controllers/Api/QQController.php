@@ -93,7 +93,7 @@ class QQController extends Controller
     					$userInfo = [
     						'user_id' => $userId,
     						'email'   => '',
-    						'sex'     => $userInfo['gener'] == "男" ? 1 : 2
+    						'sex'     => $userInfo['gemder'] == "男" ? 1 : 2
     					];
 
     					\DB::table('jy_user_info')->insert($userInfo);
