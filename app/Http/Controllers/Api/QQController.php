@@ -54,10 +54,26 @@ class QQController extends Controller
 
     			$response1 = file_get_contents($openUrl);
 
-    			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$response1]);
+    			$openData = $this->getOpenData($response1);
+
+    			\Log::info('Step3: QQ第三方登陆获取获取openid的数据信息', [$openData]);
 
     		}
 
     	}
+    }
+
+    //获取openID的数据信息
+    public function getOpenData($openData)
+    {
+    	$lpos = strpos($openData, '(');
+    	$rpos = strpos($openData, ')');
+
+    	$str = substr($openData, $lpos, $rpos-$lpos-1);
+
+
+    	$openData = json_decode($str, true);
+
+    	return $openData;
     }
 }
