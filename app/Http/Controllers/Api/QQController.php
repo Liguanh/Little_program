@@ -27,13 +27,17 @@ class QQController extends Controller
     		$code = $params['code'];//code授权码
 
     		//获取token的url地址信息
-    		$tokenUrl = sprintf($this->qq['token_url'],$this->qq['app_id'],$this->qq['app_key'],$code,$this->qq['redirect_url']);
+    		$tokenUrl = sprintf($this->qq['token_url'],$this->qq['app_id'],$this->qq['app_key'],$code,urlencode($this->qq['redirect_url']));
 
     		\Log::info('QQ第三方登陆获取access_token的url地址', ['access_token_url'=>$tokenUrl]);
 
+    		//access_token请求过来的值，进行数组处理
+    		$accessTokenData = [];
     		$response = file_get_contents($tokenUrl);
 
-    		\Log::info('请求access_token返回的内容',[$response]);
+    		parse_str($response,$accessTokenData);
+
+    		\Log::info('请求access_token返回的内容',[$accessTokenData]);
 
     	}
     }
