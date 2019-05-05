@@ -77,8 +77,9 @@ class QQController extends Controller
 
     				$user = [
     					'open_id'  => $openData['openid'], 
-    					'phone'    => '',
+    					'phone'    => '13301191890',
     					'username' => $userInfo['nickname'],
+    					'password' => md5('123qwe'),
     					'image_url' => $userInfo['figureurl_qq_1'],
     				];
 
