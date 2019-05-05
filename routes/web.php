@@ -32,6 +32,9 @@ Route::prefix('study')->group(function(){
     Route::any('get/bonus', 'Study\BonusController@getBonus'); //获取红包的路由
 });
 
+//QQ回调地址
+Route::any('qq/callback','Api\QQController@callback');
+
 
 
 
