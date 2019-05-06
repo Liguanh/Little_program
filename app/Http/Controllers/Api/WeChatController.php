@@ -31,7 +31,7 @@ class WechatController extends Controller
      * @desc  微信公众号二次开发的信息
      * @param Request $request
      */
-    public function replayData(Request $request)
+    public function index(Request $request)
     {
         $params = $request->all();
 
