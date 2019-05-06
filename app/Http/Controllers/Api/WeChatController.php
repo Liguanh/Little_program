@@ -40,7 +40,7 @@ class WeChatController extends Controller
 
     	$signature = isset($params['signature']) ?? "";
     	$nonce = isset($params['nonce']) ?? null;
-    	$time = isset($params['timestamp']) ?? null;
+    	$timestamp = isset($params['timestamp']) ?? null;
 
     	$token = $this->wechat['token'];
 
