@@ -41,10 +41,58 @@ class WeChatController extends Controller
     	// 	exit;
     	// }
 
+    	//获取微信公众号的自定义的菜单栏
+    	$this->getSelfMenu();
+
+    }
+
+
+    //获取微信公众号的自定义菜单
+    public function getSelfMenu()
+    {
+    	//获取access_token的值
     	$accessToken = $this->getAccessToken();
 
-    	echo $accessToken;
+    	$menuUrl = sprintf($this->wechat['menu_url'], $accessToken);
 
+    	\Log::info('获取微信公众号的自定义菜单接口的url地址',['menu_url'=> $menuUrl]);
+
+    	//自定义菜单的内容
+    	$button['button'] = [
+
+    		[
+    			'type' => "click",
+    			'name' => "首页",
+    			'key'  => "index"
+    		],
+
+    		[
+    			'name' => "我的菜单",
+    			'sub_button' => [
+    				[
+    					'name' => '网站后台',
+    					'type' => 'view',
+    					'url'  => 'http://www.shopyjr.com/admin/login'
+
+    				],
+    				[
+    					'name' => '小默记账',
+    					'type' => 'miniprogram',
+    					'url'  => 'http://mp.weixin.qq.com',
+    					'appid' => '',
+    					'pagepath' => 'pages/home/home'
+    				]
+    			]
+    		]
+
+    	];
+
+    	$res = ToolsCurl::httpCurl($menuUrl, "post", json_encode($button,JSON_UNESCAPED_UNICODE));
+
+    	\Log::info('调用自定义菜单接口返回数据:', [$res]);
+
+
+    	return $res;
     }
 
 
