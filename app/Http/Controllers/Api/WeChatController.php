@@ -1,146 +1,256 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: linguanghui
+ * Date: 18/10/31
+ * Time: 下午6:41
+ */
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
-use App\Tools\ToolsCurl;
+use App\Tools\ToolCurl;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
-class WeChatController extends Controller
+class WechatController extends Controller
 {
-    //
     protected $wechat = null;
-
-    protected $redis = null;
-
-    protected $accessTokenKey = "access_token_cache";//redis存储的token的key值
+    protected $redis  = null;
 
     public function __construct()
     {
-    	$this->wechat = \Config::get('wechat');//获取微信的配置信息
+        $this->wechat = \Config::get('wechat');
 
-    	$this->redis = new \Redis();
-
-    	$this->redis->connect(env('REDIS_HOST'), env('REDIS_PORT'));
+        $this->redis = new \Redis();
+        $this->redis->connect(env('REDIS_HOST'),env('REDIS_PORT'));
     }
 
-    //微信公众号的入口路由
-    public function index(Request $request)
+    /**
+     * @desc  微信公众号二次开发的信息
+     * @param Request $request
+     */
+    public function replayData(Request $request)
     {
-    	$params  = $request->all();
+        $params = $request->all();
 
-    	\Log::info('微信公众平台请求数据:',[$params]);
+        \Log::info('微信公众号二次开发数据',[$params]);
 
-    	$res = $this->checkSignature($params);//验证微信服务器请求签名的有效性
+        $res = $this->checkSignature($params);
 
-    	if($res){
-    		echo $params['echostr'];
-    		exit;
-    	}else{
-    		echo "校验失败";
-    		exit;
-    	}
+        if($res){
+            \Log::info('令牌校验成功');
+            echo $params['echostr'];
+            exit;
+        }
+        //获取自定义菜单的内容
+        $this->getSelfMenu();
 
-    	//获取微信公众号的自定义的菜单栏
-    	$this->getSelfMenu();
+        //$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $postStr = isset($GLOBALS['HTTP_RAW_POST_DATA']) ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents("php://input");
+        $this->getWeChatMsg($postStr);
 
     }
 
 
-    //获取微信公众号的自定义菜单
+
+    /**
+     * @desc 获取自定义菜单信息
+     */
     public function getSelfMenu()
     {
-    	//获取access_token的值
-    	$accessToken = $this->getAccessToken();
+        $accessToken = $this->getAccessToken();
 
-    	$menuUrl = sprintf($this->wechat['menu_url'], $accessToken);
+        $menuUrl = sprintf($this->wechat['menu_url'],$accessToken);
 
-    	\Log::info('获取微信公众号的自定义菜单接口的url地址',['menu_url'=> $menuUrl]);
+        \Log::info('获取自定义菜单栏的url地址',['menu_url'=>$menuUrl]);
 
-    	//自定义菜单的内容
-    	$button['button'] = [
+        $button['button'] = [
+            [
+                'type' => "click",
+                'name' => "首页",
+                'key'  => "index"
+            ],
+            [
+                'name' => "小默记账",
+                'type' => "miniprogram",
+                'url'  => "http://mp.weixin.qq.com",
+                'appid' => "wx142bcc28fd1f4a74",
+                'pagepath' => 'pages/home/home'
+            ],
+            [
+                'name' => "图片发送",
+                'sub_button' => [
+                    [
+                        'type' => "pic_photo_or_album",
+                        "name" =>  "拍照或者相册发图",
+                        "key" => "rselfmenu_1_1",
+                    ],
+                    [
+                        'type' => "pic_weixin",
+                        "name" =>  "微信相册",
+                        "key" => "rselfmenu_1_3",
+                    ],
+                ]
+            ]
+        ];
 
-    		[
-    			'type' => "click",
-    			'name' => "首页",
-    			'key'  => "index"
-    		],
+        $res = ToolCurl::httpCurl($menuUrl,'post', json_encode($button,JSON_UNESCAPED_UNICODE));
 
-    		[
-    			'name' => "我的菜单",
-    			'sub_button' => [
-    				[
-    					'name' => '网站后台',
-    					'type' => 'view',
-    					'url'  => 'http://www.shopyjr.com/admin/login'
+        \Log::info('自定义菜单数据',[$res]);
 
-    				],
-    				[
-    					'name' => '小默记账',
-    					'type' => 'miniprogram',
-    					'url'  => 'http://mp.weixin.qq.com',
-    					'appid' => 'wx142bcc28fd1f4a74',
-    					'pagepath' => 'pages/home/home'
-    				]
-    			]
-    		]
-
-    	];
-
-    	$res = ToolsCurl::httpCurl($menuUrl, "post", json_encode($button,JSON_UNESCAPED_UNICODE));
-
-    	\Log::info('调用自定义菜单接口返回数据:', [$res]);
-
-
-    	return $res;
+        return $res;
     }
 
-
-    //获取access_token的值
-    public function getAccessToken()
+    /**
+     * @desc 自定义消息回复
+     * @param $postStr
+     */
+    public function getWeChatMsg($postStr)
     {
-    	//获取缓存中的token值
-    	$accessToken = $this->redis->get($this->accessTokenKey);
+        //extract post data
+        if (!empty($postStr)){
+            /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
+               the best way is to check the validity of xml by yourself */
+            libxml_disable_entity_loader(true);
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-    	if(empty($accessToken)){
-    		//请求获取access_token的接口
-    		$accessTokenUrl = sprintf($this->wechat['access_token_url'], $this->wechat['app_id'],$this->wechat['app_secret']);
+            $msgType = $postObj->MsgType;
 
-    		\Log::info('请求获取access_token的接口url地址',['access_token_url'=>$accessTokenUrl]);
+            switch ($msgType) {
+                case "text":
+                    $this->responseTextMsg($postObj);
+                    break;
 
-    		//请求access_token;
-    		$response = ToolsCurl::httpCurl($accessTokenUrl);
+                case "image":
+                    $this->responseImageMsg($postObj);
+                    break;
 
-    		\Log::info('获取到的access_token接口返回的数据:',[$response]);
+            }
 
-    		$accessToken = $response['access_token'];
-    	}
+        }else {
+            echo "";
+            exit;
+        }
 
-
-    	return $accessToken;
     }
 
-    //验证微信服务器传输数据签名的有效性
+    /**
+     * @desc  响应文本信息
+     * @param $postObj
+     */
+    public function responseTextMsg($postObj)
+    {
+        $fromUsername = $postObj->FromUserName;
+        $toUsername = $postObj->ToUserName;
+        $keyword = trim($postObj->Content);//内容
+        $time = time();
+        $msgType = $postObj->MsgType;
+
+        //消息模版
+        $textTpl = "<xml>
+							<ToUserName><![CDATA[%s]]></ToUserName>
+							<FromUserName><![CDATA[%s]]></FromUserName>
+							<CreateTime>%s</CreateTime>
+							<MsgType><![CDATA[%s]]></MsgType>
+							<Content><![CDATA[%s]]></Content>
+							<FuncFlag>0</FuncFlag>
+							</xml>";
+
+        if(!empty( $keyword ))
+        {
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $keyword);
+            echo $resultStr;
+        }else{
+            echo "Input something...";
+        }
+
+    }
+
+    /**
+     * @desc  响应图片信息
+     * @param $postObj
+     */
+    public function responseImageMsg($postObj)
+    {
+        $fromUsername = $postObj->FromUserName;
+        $toUsername = $postObj->ToUserName;
+        //$picUrl = $postObj->PicUrl;
+        $time = time();
+        //$msgType = $postObj->MsgType;
+        $MediaId = $postObj->MediaId;
+
+        $imageTpl = "<xml>
+                      <ToUserName><![CDATA[%s]]></ToUserName>
+                      <FromUserName><![CDATA[%s]]></FromUserName>
+                      <CreateTime>%s</CreateTime>
+                      <MsgType><![CDATA[image]]></MsgType>
+                      <Image>
+                        <MediaId><![CDATA[%s]]></MediaId>
+                      </Image>
+                      </xml>";
+        if(!empty($MediaId)){
+
+            $resultStr = sprintf($imageTpl, $fromUsername, $toUsername, $time, $MediaId);
+            echo $resultStr;
+        }else{
+            echo "Input something...";
+        }
+
+    }
+
+    /**
+     * @desc 获取access_token
+     * @return bool|string
+     */
+    private function getAccessToken()
+    {
+        //获取access_token的url地址
+        $accessTokenKey = 'access_token';
+
+        $accessToken = $this->redis->get($accessTokenKey);
+        //token值不存在的情况
+        if(empty($accessToken)){
+            $tokenURL = sprintf($this->wechat['token_url'],$this->wechat['app_id'], $this->wechat['app_secret']);
+
+            \Log::info('请求微信公众号开发access_token的url地址',['token_url'=>$tokenURL]);
+
+            $response = ToolCurl::httpCurl($tokenURL);
+
+            \Log::info('请求接口返回access_token相应数据：',[$response]);
+
+            $accessToken = $response['access_token'];
+
+            $this->redis->setex($accessTokenKey,$response['expires_in'],$accessToken);
+        }
+
+        return $accessToken;
+    }
+
+    /**
+     * @desc 签名签证接口
+     * @param $params
+     * @return bool
+     */
     private function checkSignature($params)
     {
+        $signature = isset($params['signature']) ?? "";
+        $timestamp = isset($params['timestamp']) ?? time();
+        $nonce = isset($params['nonce']) ?? "";
 
-    	$signature = isset($params['signature']) ?? "";
-    	$nonce = isset($params['nonce']) ?? null;
-    	$timestamp = isset($params['timestamp']) ?? null;
+        $token = $this->wechat['token'];//签名令牌
 
-    	$token = $this->wechat['token'];
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr);
+        $tmpStr = implode( $tmpArr );
+        $tmpStr = sha1( $tmpStr );
 
-    	$tmpArr = array($token,$timestamp,$nonce);//组装成数组
+        if( $tmpStr == $signature ){
+            return true;
+        }else{
+            return false;
+        }
 
-    	sort($tmpArr, SORT_STRING);//对数组进行sort排序
-
-    	$tmpStr = implode($tmpArr);
-    	$tmpStr = sha1($tmpStr);
-
-    	if($tmpStr !=$signature){
-    		return false;
-    	}
-
-    	return true;
     }
 }
