@@ -35,8 +35,6 @@ Route::prefix('study')->group(function(){
 //QQ回调地址
 Route::any('qq/callback','Api\QQController@callback');
 
-//微信公众号服务器配置地址
-Route::any('wechat/index','Api\WeChatController@index');
 
 
 //登陆页面
