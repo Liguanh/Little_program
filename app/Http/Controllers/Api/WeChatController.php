@@ -79,7 +79,7 @@ class WeChatController extends Controller
     					'name' => '小默记账',
     					'type' => 'miniprogram',
     					'url'  => 'http://mp.weixin.qq.com',
-    					'appid' => '',
+    					'appid' => 'wx142bcc28fd1f4a74',
     					'pagepath' => 'pages/home/home'
     				]
     			]
