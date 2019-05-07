@@ -44,6 +44,10 @@ class WeChatController extends Controller
     	//获取微信公众号的自定义的菜单栏
     	$this->getSelfMenu();
 
+        //接受用户请求过来的消息
+        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        \Log::info('用户发送的信息内容',[$postStr]);
+
     }
 
 
