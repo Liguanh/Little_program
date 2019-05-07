@@ -149,7 +149,21 @@ class WeChatController extends Controller
             $goodsInfo = $this->goods->getGoodsByKeywords($keywords);
 
             if(empty($goodsInfo)){
-                echo "没有查询到内容";
+                //回复文本消息的模板
+                $textTpl = "<xml>
+                                    <ToUserName><![CDATA[%s]]></ToUserName>
+                                    <FromUserName><![CDATA[%s]]></FromUserName>
+                                    <CreateTime>%s</CreateTime>
+                                    <MsgType><![CDATA[%s]]></MsgType>
+                                    <Content><![CDATA[%s]]></Content>
+                            </xml>";
+
+                    //回复的消息内容
+                $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', '没有查询到内容');
+
+                \Log::info('自动回复消息',[$responseMsg]);
+
+                echo $responseMsg;
             }else{
 
                 //获取商品图片地址
@@ -158,7 +172,7 @@ class WeChatController extends Controller
                     $oss = new ToolsOss();
                     $imageUrl = $oss->getUrl($gallery->image_url, true);
                 }else{
-                    $imageUrl = "http://shopyjr.com/images/photos/blog4.jpg";
+                    $imageUrl = "http://www.shopyjr.com/images/photos/blog4.jpg";
                 }
                 //图文消息的模板
                 $newsTpl = "<xml>
