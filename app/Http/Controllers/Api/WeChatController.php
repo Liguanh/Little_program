@@ -81,6 +81,8 @@ class WeChatController extends Controller
             //回复的消息内容
             $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",我的乖乖");
 
+            \Log::info('自动回复消息',[$responseMsg]);
+
             echo $responseMsg;
 
         }else{
