@@ -170,7 +170,7 @@ class WeChatController extends Controller
                     </xml>";
 
 
-        $responseMsg = sprintf($imageTpl, $fromUserName, $toUserName, time(),$mediaId);
+        $responseMsg = sprintf($voiceTpl, $fromUserName, $toUserName, time(),$mediaId);
 
         \Log::info('被动回复语音消息',[$responseMsg]);
 
