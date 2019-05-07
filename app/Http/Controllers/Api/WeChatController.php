@@ -79,7 +79,7 @@ class WeChatController extends Controller
                         </xml>"
 
             //回复的消息内容
-            $reponseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",乖乖");
+            $reponseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords."乖乖");
 
             echo $responseMsg;
 
