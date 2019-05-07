@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Tools\ToolsCurl;
+use App\Model\Goods;
 
 class WeChatController extends Controller
 {
@@ -12,6 +13,7 @@ class WeChatController extends Controller
     protected $wechat = null;
 
     protected $redis = null;
+    protected $goods = null;
 
     protected $accessTokenKey = "access_token_cache";//redis存储的token的key值
 
@@ -20,6 +22,8 @@ class WeChatController extends Controller
     	$this->wechat = \Config::get('wechat');//获取微信的配置信息
 
     	$this->redis = new \Redis();
+
+        $this->goods = new Goods();
 
     	$this->redis->connect(env('REDIS_HOST'), env('REDIS_PORT'));
     }
@@ -98,6 +102,18 @@ class WeChatController extends Controller
         $toUserName   = $postObj->ToUserName;//接收者
         $keywords = trim($postObj->Content);
 
+        if(empty($keywords)){
+            $content = "您没有输入内容";
+        }else{
+            $goodsInfo = $this->goods->getGoodsByKeywords($keywords);
+
+            if(empty($goodsInfo)){
+                $content = "没有查询到内容";
+            }else{
+                $content = "商品名称:".$goodsInfo->goods_name."\n 商品货号:".$goodsInfo->goods_sn."\n 商品价格:".$goodsInfo->market_price."\n 商品库存:".$goodsInfo->goods_num;
+            }
+        }
+
         \Log::info('记录用户发送文本的消息',[$fromUserName,$toUserName,$keywords]);
 
         //回复文本消息的模板
@@ -110,7 +126,7 @@ class WeChatController extends Controller
                     </xml>";
 
             //回复的消息内容
-        $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",我的乖乖");
+        $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $content);
 
         \Log::info('自动回复消息',[$responseMsg]);
 
