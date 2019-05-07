@@ -94,7 +94,7 @@ class WeChatController extends Controller
         $toUserName   = $postObj->ToUserName;//接收者
         $keywords = trim($postObj->Content);
 
-        \Log::info('记录用户发送文本的消息',[$fromUserName,$toUserName,$msgType,$keywords]);
+        \Log::info('记录用户发送文本的消息',[$fromUserName,$toUserName,$keywords]);
 
         //回复文本消息的模板
         $textTpl = "<xml>
