@@ -180,17 +180,10 @@ class WeChatController extends Controller
                               <FromUserName><![CDATA[%s]]></FromUserName>
                               <CreateTime>%s</CreateTime>
                               <MsgType><![CDATA[news]]></MsgType>
-                              <ArticleCount>2</ArticleCount>
+                              <ArticleCount>1</ArticleCount>
                               <Articles>
                                 <item>
                                   <Title><![CDATA[%s]]></Title>
-                                  <Description><![CDATA[%s]]></Description>
-                                  <PicUrl><![CDATA[%s]]></PicUrl>
-                                  <Url><![CDATA[%s]]></Url>
-                                </item>
-                                <item>
-                                  <Title><![CDATA[%s]]></Title>
-                                  <Description><![CDATA[%s]]></Description>
                                   <PicUrl><![CDATA[%s]]></PicUrl>
                                   <Url><![CDATA[%s]]></Url>
                                 </item>
@@ -198,7 +191,7 @@ class WeChatController extends Controller
                             </xml>";
 
 
-                $responseMsg = sprintf($newsTpl,$fromUserName,$toUserName,time(),$goodsInfo->goods_name,$goodsInfo->goods_desc,$imageUrl,'http://www.baidu.com',$goodsInfo->goods_name,$goodsInfo->goods_desc,$imageUrl,'http://www.baidu.com');
+                $responseMsg = sprintf($newsTpl,$fromUserName,$toUserName,time(),$goodsInfo->goods_name,$imageUrl,'http://www.baidu.com');
 
                 echo $responseMsg;
             }
