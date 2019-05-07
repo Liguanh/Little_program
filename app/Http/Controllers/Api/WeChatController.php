@@ -192,7 +192,7 @@ class WeChatController extends Controller
                             </xml>";
 
 
-                $responseMsg = sprintf($newsTpl,$fromUserName,$toUserName,time(),$goodsInfo->title,$goodsInfo->goods_desc,$imageUrl,'http://www.baidu.com');
+                $responseMsg = sprintf($newsTpl,$fromUserName,$toUserName,time(),$goodsInfo->goods_name,$goodsInfo->goods_desc,$imageUrl,'http://www.baidu.com');
 
                 echo $responseMsg;
             }
