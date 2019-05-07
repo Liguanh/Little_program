@@ -57,33 +57,28 @@ class WeChatController extends Controller
     public function responseMsg($postStr)
     {
         if(!empty($postStr)){
-            //解析xml的内容
+            //解析xml的内容,微信服务器发过来的内容
             libxml_disable_entity_loader(true);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-            $fromUserName = $postObj->FromUserName;//发送者
-            $toUserName   = $postObj->ToUserName;//公众号id
+            //发送过来的消息类型
             $msgType = $postObj->MsgType;
 
-            $keywords = trim($postObj->Content);
+            //按照消息类型分发消息
+            switch ($msgType) {
+                case 'text'://文本形式
+                    $this->responseText($postObj);
+                    break;
 
-            \Log::info('记录用户发送过来的消息',[$fromUserName,$toUserName,$msgType,$keywords]);
+                case 'image'://图片
+                    $this->responseImage($postObj);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
 
-            //回复文本消息的模板
-            $textTpl = "<xml>
-                            <ToUserName><![CDATA[%s]]></ToUserName>
-                            <FromUserName><![CDATA[%s]]></FromUserName>
-                            <CreateTime>%s</CreateTime>
-                            <MsgType><![CDATA[%s]]></MsgType>
-                            <Content><![CDATA[%s]]></Content>
-                        </xml>";
-
-            //回复的消息内容
-            $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",我的乖乖");
-
-            \Log::info('自动回复消息',[$responseMsg]);
-
-            echo $responseMsg;
 
         }else{
             echo "please input something";
@@ -91,6 +86,65 @@ class WeChatController extends Controller
         }
 
     }
+
+    //回复文本消息
+    public function responseText($postObj)
+    {
+        $fromUserName = $postObj->FromUserName;//发送者
+        $toUserName   = $postObj->ToUserName;//接收者
+        $keywords = trim($postObj->Content);
+
+        \Log::info('记录用户发送文本的消息',[$fromUserName,$toUserName,$msgType,$keywords]);
+
+        //回复文本消息的模板
+        $textTpl = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                    </xml>";
+
+            //回复的消息内容
+        $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",我的乖乖");
+
+        \Log::info('自动回复消息',[$responseMsg]);
+
+        echo $responseMsg;
+
+    }
+
+    //回复图片消息
+    public function responseImage($postObj)
+    {
+        $fromUserName = $postObj->FromUserName;//发送者
+        $toUserName   = $postObj->ToUserName;//接收者
+        $picUrl = $postObj->PicUrl;
+        $mediaId = $postObj->MediaId;
+
+        \Log::info('记录用户发送图片的消息',[$fromUserName,$toUserName,$picUrl,$mediaId]);
+
+        //图片消息的模板
+        $imageTpl = "<xml>
+                      <ToUserName><![CDATA[%s]]></ToUserName>
+                      <FromUserName><![CDATA[%s]]></FromUserName>
+                      <CreateTime>%s</CreateTime>
+                      <MsgType><![CDATA[image]]></MsgType>
+                      <Image>
+                        <MediaId><![CDATA[%s]]></MediaId>
+                      </Image>
+                    </xml>";
+
+
+        $responseMsg = sprintf($imageTpl, $fromUserName, $toUserName, time(),$mediaId);
+
+        \Log::info('被动回复图片消息',[$responseMsg]);
+
+
+        echo $responseMsg;
+    }
+
+
 
 
     //获取微信公众号的自定义菜单
