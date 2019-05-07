@@ -14,7 +14,7 @@ class Goods extends Model
     //通过关键字获取商品信息
     public function getGoodsByKeywords($keywords)
     {
-    	$goodsInfo = self::select('goods_name','goods_sn','market_price','goods_num')
+    	$goodsInfo = self::select('id','goods_name','goods_sn','market_price','goods_num','goods_desc')
     						->where('goods_name','like', '%'.$keywords.'%')
     						->orWhere('goods_sn', 'like', '%'.$keywords.'%')
     						->first();

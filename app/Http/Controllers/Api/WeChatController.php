@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Tools\ToolsCurl;
+use App\Tools\ToolsOss;
 use App\Model\Goods;
 
 class WeChatController extends Controller
@@ -71,7 +72,7 @@ class WeChatController extends Controller
             //按照消息类型分发消息
             switch ($msgType) {
                 case 'text'://文本形式
-                    $this->responseText($postObj);
+                    $this->responseNews($postObj);
                     break;
 
                 case 'image'://图片
@@ -132,6 +133,58 @@ class WeChatController extends Controller
 
         echo $responseMsg;
 
+    }
+
+    //自动回复图文消息
+    public function responseNews($postObj)
+    {
+
+        $fromUserName = $postObj->FromUserName;//发送者
+        $toUserName   = $postObj->ToUserName;//接收者
+        $keywords = trim($postObj->Content);
+
+        if(empty($keywords)){
+            echo  "您没有输入内容";
+        }else{
+            $goodsInfo = $this->goods->getGoodsByKeywords($keywords);
+
+            if(empty($goodsInfo)){
+                echo "没有查询到内容";
+            }else{
+
+                //获取商品图片地址
+                $gallery = \DB::table('jy_goods_gallery')->select('image_url')->where('goods_id',$goodsInfo->id)->first();
+                if(!empty($gallery)) {
+                    $oss = new ToolsOss();
+                    $imageUrl = $oss->getUrl($gallery->image_url, true);
+                }else{
+                    $imageUrl = "http://shopyjr.com/images/photos/blog4.jpg";
+                }
+                //图文消息的模板
+                $newsTpl = "<xml>
+                              <ToUserName><![CDATA[%s]]></ToUserName>
+                              <FromUserName><![CDATA[%s]]></FromUserName>
+                              <CreateTime>%s</CreateTime>
+                              <MsgType><![CDATA[news]]></MsgType>
+                              <ArticleCount>1</ArticleCount>
+                              <Articles>
+                                <item>
+                                  <Title><![CDATA[%s]]></Title>
+                                  <Description><![CDATA[%s]]></Description>
+                                  <PicUrl><![CDATA[%s]]></PicUrl>
+                                  <Url><![CDATA[%s]]></Url>
+                                </item>
+                              </Articles>
+                            </xml>";
+
+
+                $responseMsg = sprintf($newsTpl,$fromUserName,$toUserName,time(),$goodsInfo->title,$goodsInfo->goods_desc,$imageUrl,'http://www.baidu.com');
+
+                echo $responseMsg;
+            }
+        }
+
+        
     }
 
     //回复图片消息
