@@ -76,7 +76,7 @@ class WeChatController extends Controller
                             <CreateTime>%s</CreateTime>
                             <MsgType><![CDATA[%s]]></MsgType>
                             <Content><![CDATA[%s]]></Content>
-                        </xml>"
+                        </xml>";
 
             //回复的消息内容
             $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords."乖乖");
