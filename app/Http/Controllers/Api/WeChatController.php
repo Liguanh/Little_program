@@ -45,7 +45,7 @@ class WeChatController extends Controller
     	$this->getSelfMenu();
 
         //接受用户请求过来的消息
-        $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+        $postStr = isset($GLOBALS["HTTP_RAW_POST_DATA"]) ?? file_get_contents("php://input");
         \Log::info('用户发送的信息内容',[$postStr]);
 
     }
