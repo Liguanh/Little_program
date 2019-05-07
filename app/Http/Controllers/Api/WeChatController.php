@@ -73,6 +73,10 @@ class WeChatController extends Controller
                 case 'image'://图片
                     $this->responseImage($postObj);
                     break;
+
+                case 'voice'://语音
+                    $this->responseVoice($postObj);
+                    break;
                 
                 default:
                     # code...
@@ -142,6 +146,37 @@ class WeChatController extends Controller
 
 
         echo $responseMsg;
+    }
+
+    //自动回复语音的消息
+    public function responseVoice($postObj)
+    {
+        $fromUserName = $postObj->FromUserName;//发送者
+        $toUserName   = $postObj->ToUserName;//接收者
+        $mediaId = $postObj->MediaId;//mediaId
+
+        \Log::info('记录用户发送语音的消息',[$fromUserName,$toUserName,$mediaId]);
+
+
+        //语音模板信息
+        $voiceTpl = "<xml>
+                      <ToUserName><![CDATA[%s]]></ToUserName>
+                      <FromUserName><![CDATA[%s]]></FromUserName>
+                      <CreateTime>%s</CreateTime>
+                      <MsgType><![CDATA[voice]]></MsgType>
+                      <Voice>
+                        <MediaId><![CDATA[%s]]></MediaId>
+                      </Voice>
+                    </xml>";
+
+
+        $responseMsg = sprintf($imageTpl, $fromUserName, $toUserName, time(),$mediaId);
+
+        \Log::info('被动回复语音消息',[$responseMsg]);
+
+
+        echo $responseMsg;
+
     }
 
 
