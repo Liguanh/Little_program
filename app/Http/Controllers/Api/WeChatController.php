@@ -47,6 +47,9 @@ class WeChatController extends Controller
         //接受微信服务器发送过来的xml的数据
         $postStr = isset($GLOBALS["HTTP_RAW_POST_DATA"]) ? $GLOBALS["HTTP_RAW_POST_DATA"] :file_get_contents("php://input");
         \Log::info('用户发送的信息内容',[$postStr]);
+        
+        //自定义消息分发记录
+        $this->responseMsg($postStr);
 
     }
 
