@@ -47,7 +47,7 @@ class WeChatController extends Controller
         //接受微信服务器发送过来的xml的数据
         $postStr = isset($GLOBALS["HTTP_RAW_POST_DATA"]) ? $GLOBALS["HTTP_RAW_POST_DATA"] :file_get_contents("php://input");
         \Log::info('用户发送的信息内容',[$postStr]);
-        
+
         //自定义消息分发记录
         $this->responseMsg($postStr);
 
@@ -62,12 +62,26 @@ class WeChatController extends Controller
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
             $fromUserName = $postObj->FromUserName;//发送者
-            $toUserName   = $postObj->ToUserName;
+            $toUserName   = $postObj->ToUserName;//公众号id
             $msgType = $postObj->MsgType;
 
             $keywords = trim($postObj->Content);
 
             \Log::info('记录用户发送过来的消息',[$fromUserName,$toUserName,$msgType,$keywords]);
+
+            //回复文本消息的模板
+            $textTpl = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                        </xml>"
+
+            //回复的消息内容
+            $reponseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $keywords.",乖乖")；
+
+            echo $responseMsg;
 
         }else{
             echo "please input something";
