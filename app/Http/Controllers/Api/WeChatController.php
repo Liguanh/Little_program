@@ -50,6 +50,29 @@ class WeChatController extends Controller
 
     }
 
+    //自定义消息分发回复
+    public function responseMsg($postStr)
+    {
+        if(!empty($postStr)){
+            //解析xml的内容
+            libxml_disable_entity_loader(true);
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+            $fromUserName = $postObj->FromUserName;//发送者
+            $toUserName   = $postObj->ToUserName;
+            $msgType = $postObj->MsgType;
+
+            $keywords = trim($postObj->Content);
+
+            \Log::info('记录用户发送过来的消息',[$fromUserName,$toUserName,$msgType,$keywords]);
+
+        }else{
+            echo "please input something";
+            exit;
+        }
+
+    }
+
 
     //获取微信公众号的自定义菜单
     public function getSelfMenu()
