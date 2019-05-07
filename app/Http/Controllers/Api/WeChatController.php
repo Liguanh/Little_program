@@ -67,7 +67,7 @@ class WeChatController extends Controller
     		],
 
     		[
-    			'name' => "我的菜单",
+    			'name' => "其他",
     			'sub_button' => [
     				[
     					'name' => '网站后台',
