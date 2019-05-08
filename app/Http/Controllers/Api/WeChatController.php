@@ -271,7 +271,7 @@ class WeChatController extends Controller
         $toUserName   = $postObj->ToUserName;//接收者
 
         $locationX = $postObj->Location_X;
-        $locationY = $postObj->Locatoin_Y;
+        $locationY = $postObj->Location_Y;
         $label = $postObj->Label;
 
         $content = "您的位置信息: 维度:".$locationX."\n 经度:".$locationY."\n地理位置信息:".$label;
