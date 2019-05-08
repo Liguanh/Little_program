@@ -31,5 +31,19 @@ class WapController extends Controller
     	$params = $request->all();
 
     	\Log::info('用户网页授权后回调信息:',[$params]);
+
+    	if(!empty($params['code'])){
+
+    		$pageTokenUrl = sprintf($this->wechat['page_access_token_url'],$this->wechat['app_id'],$this->wechat['app_secret'], $params['code']);
+
+    		\Log::info('获取网页授权access_token的url地址',['page_token_url'=>$pageTokenUrl]);
+
+
+    		$response = file_get_contents($pageTokenUrl);
+
+    		$response = json_decode($response, true);
+
+    		\Log::info("获取网页access_token返回的数据",[$response]);
+    	}
     }
 }

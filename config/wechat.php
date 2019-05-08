@@ -11,4 +11,7 @@ return [
 
 	//获取网页授权code码的地址
 	'wap_code_url' => 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=test#wechat_redirect'
+
+	//网页授权的access_token
+	'page_access_token_url' => 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code',
 ];
