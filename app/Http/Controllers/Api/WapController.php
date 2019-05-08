@@ -24,7 +24,9 @@ class WapController extends Controller
 
     	\Log::info("微信第三方网页授权的地址",['h5_url'=> $h5AuthUrl]);
 
-    	return view('wap.code',['h5_url'=>$h5AuthUrl]);
+    	header('location:'.$h5AuthUrl);
+
+    	//return view('wap.code',['h5_url'=>$h5AuthUrl]);
     }
 
     //网页授权回调
