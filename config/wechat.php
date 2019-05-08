@@ -14,4 +14,7 @@ return [
 
 	//网页授权的access_token
 	'page_access_token_url' => 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code',
+
+	//获取用户详细信息
+	'user_info_url' => 'https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN',
 ];

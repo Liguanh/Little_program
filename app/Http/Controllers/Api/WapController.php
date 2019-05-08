@@ -10,6 +10,8 @@ class WapController extends Controller
     //
     protected $wechat = null;
 
+    protected $redis = null;
+
     public function __construct()
     {
     	$this->wechat = \Config::get('wechat');//获取微信的配置信息
@@ -34,6 +36,10 @@ class WapController extends Controller
 
     	if(!empty($params['code'])){
 
+    		$pageAccessTokenKey = "page_access_token";
+
+    		//if()
+
     		$pageTokenUrl = sprintf($this->wechat['page_access_token_url'],$this->wechat['app_id'],$this->wechat['app_secret'], $params['code']);
 
     		\Log::info('获取网页授权access_token的url地址',['page_token_url'=>$pageTokenUrl]);
@@ -44,6 +50,30 @@ class WapController extends Controller
     		$response = json_decode($response, true);
 
     		\Log::info("获取网页access_token返回的数据",[$response]);
+
+
+    		if(isset($response['access_token'])){
+
+    			$userInfoUrl = sprintf($this->wechat['user_info_url'], $response['access_token'], $response['openid']);
+
+    			\Log::info('获取用户信息的url地址',['user_info_url'=>$userInfoUrl]);
+
+
+    			$userInfo = file_get_contents($userInfoUrl);
+
+    			$userInfo = json_decode($userInfo, true);
+
+    			\Log::info('获取用户信息返回的数据',[$userInfo]);
+    		}
+
     	}
+    }
+
+
+    public function index(Request $request)
+    {
+    	$params = $request->all();
+
+    	\Log::info('参数信息',[$params]);
     }
 }
