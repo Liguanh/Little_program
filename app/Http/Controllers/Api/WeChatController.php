@@ -435,7 +435,7 @@ class WeChatController extends Controller
     public function share()
     {
         $timestamp = time();
-        $nonceStr  = "123qwe!@#";//生成签名的随机字符串
+        $nonceStr  = "123qwe";//生成签名的随机字符串
 
         //获取jsapi_ticket的内容
         $jsTicket = $this->getJsApiTicket();
