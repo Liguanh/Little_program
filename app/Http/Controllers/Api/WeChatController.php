@@ -408,7 +408,7 @@ class WeChatController extends Controller
 
         $jsTicket = $this->redis->get($ticketKey);
 
-        if($jsTicket){
+        if(empty($jsTicket)){
 
             $ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$accessToken."&type=jsapi";
 
@@ -443,19 +443,23 @@ class WeChatController extends Controller
         $url = "http://www.shopyjr.com/api/wap/share";
 
         $tmpArr = [
-            'noncestr' => $nonceStr,
             'jsapi_ticket' => $jsTicket,
+            'noncestr' => $nonceStr,
             'timestamp'    => $timestamp,
             'url'          => $url
         ];
 
-        sort($tmpArr, SORT_STRING);
+        //dump($tmpArr);
+
+        //sort($tmpArr);
 
         $tmpStr = http_build_query($tmpArr);
 
         \Log::info('生成的url地址'.$tmpStr);
 
         $signature = sha1($tmpStr);
+
+        //echo $signature;exit;
 
         $assign = [
             'app_id' => $this->wechat['app_id'],
