@@ -84,7 +84,7 @@ class WeChatController extends Controller
                     break;
 
                 case 'location':
-                    $this->resposeLocation($postObj);
+                    $this->responseLocation($postObj);
                     break;
                 
                 default:
@@ -265,7 +265,7 @@ class WeChatController extends Controller
 
     }
     //地理位置消息
-    public function reponseLocation($postObj)
+    public function responseLocation($postObj)
     {
         $fromUserName = $postObj->FromUserName;//发送者
         $toUserName   = $postObj->ToUserName;//接收者
