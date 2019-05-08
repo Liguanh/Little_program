@@ -405,7 +405,7 @@ class WeChatController extends Controller
 
        $accessToken = $this->getAccessToken(); 
 
-       $ticket = $this->redis->get($this->ticketKey);
+       $ticket = $this->redis->get($ticketKey);
 
        if(empty($ticket)){
             //请求获取ticket的接口
