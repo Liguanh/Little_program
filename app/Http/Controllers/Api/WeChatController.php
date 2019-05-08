@@ -82,6 +82,10 @@ class WeChatController extends Controller
                 case 'voice'://语音
                     $this->responseVoice($postObj);
                     break;
+
+                case 'location':
+                    $this->resposeLocation($postObj);
+                    break;
                 
                 default:
                     # code...
@@ -259,6 +263,33 @@ class WeChatController extends Controller
 
         echo $responseMsg;
 
+    }
+    //地理位置消息
+    public function reponseLocation($postObj)
+    {
+        $fromUserName = $postObj->FromUserName;//发送者
+        $toUserName   = $postObj->ToUserName;//接收者
+
+        $locationX = $postObj->Location_X;
+        $locationY = $postObj->Locatoin_Y;
+        $label = $postObj->Label;
+
+        $content = "您的位置信息: 维度:".$locationX."\n 经度:".$locationY."\n地理位置信息:".$label;
+        //回复文本消息的模板
+        $textTpl = "<xml>
+                            <ToUserName><![CDATA[%s]]></ToUserName>
+                            <FromUserName><![CDATA[%s]]></FromUserName>
+                            <CreateTime>%s</CreateTime>
+                            <MsgType><![CDATA[%s]]></MsgType>
+                            <Content><![CDATA[%s]]></Content>
+                    </xml>";
+
+            //回复的消息内容
+        $responseMsg = sprintf($textTpl, $fromUserName, $toUserName, time(), 'text', $content);
+
+        \Log::info('自动回复消息',[$responseMsg]);
+
+        echo $responseMsg;
     }
 
 
