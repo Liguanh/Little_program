@@ -471,6 +471,8 @@ class WeChatController extends Controller
             'signature' => $signature,
         ];
 
+        \Log::info('数据信息',[$assign]);
+
         return view('wap.share',$assign);
     }
 }
