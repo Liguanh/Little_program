@@ -441,7 +441,7 @@ class WeChatController extends Controller
         //获取jsapi_ticket的内容
         $jsTicket = $this->getJsApiTicket();
 
-        $url = "http://www.shopyjr.com/api/wap/share";
+        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];;
 
         // $tmpArr = [
         //     'jsapi_ticket' => $jsTicket,
