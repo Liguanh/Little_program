@@ -417,7 +417,7 @@ class WeChatController extends Controller
             //获取ticket的内容
             $response = ToolsCurl::httpCurl($ticketUrl);
 
-            $response = json_decode($response, true);
+            //$response = json_decode($response, true);
 
             \Log::info('获取公众号调用js接口的临时ticket接口返回数据', [$response]);
 
