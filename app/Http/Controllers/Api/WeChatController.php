@@ -434,6 +434,7 @@ class WeChatController extends Controller
     //测试分享的页面
     public function share()
     {
+
         $timestamp = time();
         $nonceStr  = "123qwe";//生成签名的随机字符串
 
@@ -442,18 +443,18 @@ class WeChatController extends Controller
 
         $url = "http://www.shopyjr.com/api/wap/share";
 
-        $tmpArr = [
-            'jsapi_ticket' => $jsTicket,
-            'noncestr' => $nonceStr,
-            'timestamp'    => $timestamp,
-            'url'          => $url
-        ];
+        // $tmpArr = [
+        //     'jsapi_ticket' => $jsTicket,
+        //     'noncestr' => $nonceStr,
+        //     'timestamp'    => $timestamp,
+        //     'url'          => $url
+        // ];
 
         //dump($tmpArr);
 
         //sort($tmpArr);
 
-        $tmpStr = http_build_query($tmpArr);
+        $tmpStr = "jsapi_ticket=".$jsTicket."&noncestr=".$nonceStr."&timestamp=".$timestamp."&url=".$url."";
 
         \Log::info('生成的url地址'.$tmpStr);
 
