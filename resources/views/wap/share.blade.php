@@ -80,18 +80,18 @@
 
 
 
-		//分享给朋友
-		function shareFriends(){
-			wx.updateAppMessageShareData({ 
-		       	title: '测试分享', // 分享标题
-		        desc: '测试分享的内容', // 分享描述
-		        link: 'http://www.shopyjr.com/api/wap/share', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-		        imgUrl: 'http://www.shopyjr.com/images/photos/blog4.jpg', // 分享图标
-		        success: function () {
-		          // 设置成功
-		        }
-		    });
-		}
+		// //分享给朋友
+		// function shareFriends(){
+		// 	wx.updateAppMessageShareData({ 
+		//        	title: '测试分享', // 分享标题
+		//         desc: '测试分享的内容', // 分享描述
+		//         link: 'http://www.shopyjr.com/api/wap/share', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		//         imgUrl: 'http://www.shopyjr.com/images/photos/blog4.jpg', // 分享图标
+		//         success: function () {
+		//           // 设置成功
+		//         }
+		//     });
+		// }
 		
 	</script>
 

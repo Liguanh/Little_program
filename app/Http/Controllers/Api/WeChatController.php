@@ -441,18 +441,7 @@ class WeChatController extends Controller
         //获取jsapi_ticket的内容
         $jsTicket = $this->getJsApiTicket();
 
-        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];;
-
-        // $tmpArr = [
-        //     'jsapi_ticket' => $jsTicket,
-        //     'noncestr' => $nonceStr,
-        //     'timestamp'    => $timestamp,
-        //     'url'          => $url
-        // ];
-
-        //dump($tmpArr);
-
-        //sort($tmpArr);
+        $url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
         $tmpStr = "jsapi_ticket=".$jsTicket."&noncestr=".$nonceStr."&timestamp=".$timestamp."&url=".$url."";
 
