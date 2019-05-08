@@ -367,6 +367,8 @@ class WeChatController extends Controller
     		\Log::info('获取到的access_token接口返回的数据:',[$response]);
 
     		$accessToken = $response['access_token'];
+
+            $this->redis->setex($this->accessTokenKey, 7200, $accessToken);
     	}
 
 
@@ -395,5 +397,73 @@ class WeChatController extends Controller
     	}
 
     	return true;
+    }
+
+    //获取公众号调用js接口的临时ticket
+    public function getJsApiTicket()
+    {
+        $accessToken = $this->getAccessToken();
+
+        $ticketKey = "js_ticket";
+
+        $jsTicket = $this->redis->get($ticketKey);
+
+        if($jsTicket){
+
+            $ticketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$accessToken."&type=jsapi";
+
+            \Log::info('获取公众号调用js接口的临时ticket的url地址',['ticket_url'=> $ticketUrl]);
+
+            //获取ticket的内容
+            $response = ToolsCurl::httpCurl($ticketUrl);
+
+            $response = json_decode($response, true);
+
+            \Log::info('获取公众号调用js接口的临时ticket接口返回数据', [$response]);
+
+            $jsTicket = $response['ticket'];
+
+            $this->redis->setex($jsTicket,7200, $jsTicket);
+
+        }
+
+        return $jsTicket;
+    }
+
+
+    //测试分享的页面
+    public function share()
+    {
+        $timestamp = time();
+        $nonceStr  = "123qwe!@#";//生成签名的随机字符串
+
+        //获取jsapi_ticket的内容
+        $jsTicket = $this->getJsApiTicket();
+
+        $url = "http://www.shopyjr.com/api/wap/share";
+
+        $tmpArr = [
+            'noncestr' => $nonceStr,
+            'jsapi_ticket' => $jsTicket,
+            'timestamp'    => $timestamp,
+            'url'          => $url
+        ];
+
+        sort($tmpArr, SORT_STRING);
+
+        $tmpStr = http_build_query($tmpArr);
+
+        \Log::info('生成的url地址'.$tmpStr);
+
+        $signature = sha1($tmpStr);
+
+        $assign = [
+            'app_id' => $this->wechat['app_id'],
+            'timestamp' => $timestamp,
+            'nonceStr'  => $nonceStr,
+            'signature' => $signature,
+        ];
+
+        return view('wap.share',$assign);
     }
 }
