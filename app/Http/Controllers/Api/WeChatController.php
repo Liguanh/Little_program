@@ -331,7 +331,12 @@ class WeChatController extends Controller
     					'pagepath' => 'pages/home/home'
     				]
     			]
-    		]
+    		],
+            [
+                'name' => '微网站',
+                'type' => 'view',
+                'url'  => 'http://www.shopyjr.com/api/wap/getCode',
+            ]
 
     	];
 
