@@ -459,6 +459,8 @@ class WeChatController extends Controller
 
         $signature = sha1($tmpStr);
 
+        \Log::info('生成签名凭据',['signature' => $signature]);
+
         //echo $signature;exit;
 
         $assign = [
