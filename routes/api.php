@@ -131,3 +131,5 @@ Route::any('wechat/index','Api\WeChatController@index');
 
 Route::any('wap/getCode','Api\WapController@getCode');//获取code的授权码
 Route::any('wap/callback','Api\WapController@callback');//网页授权的回调地址
+
+Route::any('wap/share','Api\WeChatController@share');//网页授权的回调地址

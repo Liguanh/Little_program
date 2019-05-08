@@ -367,6 +367,8 @@ class WeChatController extends Controller
     		\Log::info('获取到的access_token接口返回的数据:',[$response]);
 
     		$accessToken = $response['access_token'];
+
+            $this->redis->setex($this->accessTokenKey,7200, $accessToken);
     	}
 
 
@@ -395,5 +397,62 @@ class WeChatController extends Controller
     	}
 
     	return true;
+    }
+
+    public function getJsApiTicket()
+    {
+       $ticketKey = 'jsapi_ticket';
+
+       $accessToken = $this->getAccessToken(); 
+
+       $ticket = $this->redis->get($this->ticketKey);
+
+       if(empty($ticket)){
+            //请求获取ticket的接口
+            $ticketUrl = sprintf('https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi', $accessToken);
+
+            \Log::info('请求获取ticket的接口url地址',['access_token_url'=>$ticketUrl]);
+
+            //请求ticket;
+            $response = ToolsCurl::httpCurl($ticketUrl);
+
+            \Log::info('获取到的ticket接口返回的数据:',[$response]);
+
+            $ticket = $response['ticket'];
+
+            $this->redis->setex($ticketKey,7200, $ticket);
+       }
+
+       return $ticket;
+    }
+
+    public function share()
+    {
+        $time = time();
+        $noncestr = '123qwe';
+
+        $url = "http://www.shopyjr.com/api/wap/share";
+
+        $tmpArr = [
+            'noncestr' => $noncestr,
+            'jsapi_ticket' => $this->getJsApiTicket(),
+            'timestamp'    => $time,
+            'url'          => $url
+        ];
+
+        sort($tmpArr,SORT_STRING);
+
+        $tmpStr = http_build_query($tmpArr);
+
+        $signature = sha1($tmpStr);
+
+        $assign = [
+            'wechat' => $this->wechat,
+            'noncestr' => $noncestr,
+            'timestamp' => $time,
+            'signature' => $signature
+        ];
+
+        return view('wap.index', $assign);
     }
 }
