@@ -64,9 +64,18 @@
 			    imgUrl: 'http://www.shopyjr.com/images/photos/blog4.jpg', // 分享图标
 			    success: function () {
 			    // 用户点击了分享后执行的回调函数
-			},
+				},
+
+				cancel: function(res) {
+		        	alert('取消分享了');
+		        }
     
+				});
+
 		});
+
+
+
 		//分享给朋友
 		function shareFriends(){
 			wx.updateAppMessageShareData({ 
@@ -77,7 +86,7 @@
 		        success: function () {
 		          // 设置成功
 		        }
-		    })
+		    });
 		}
 		
 	</script>
